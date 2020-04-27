@@ -1,0 +1,327 @@
+{% load static %}
+{% block navigation %}
+{% include "AdminPanel/header.html" %} 
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	.table1{
+	padding: 30px 30px 30px 30px;
+    background: #fafafa;
+	}
+	th {
+    background: #3f0466;
+    color: #fff;
+}
+.table{
+border: 1px solid #c5c3c3;
+}
+td{
+font-size:12px;
+}
+th{
+font-size:12px;
+}
+.fa, .fas {
+    font-weight: 900;
+    font-size: 15px;
+}
+#navbar-submenu button:hover, button.active, button.focus {
+    border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+}
+.tab {
+  overflow: hidden;
+ background-color: #f0f0f0;
+ margin-bottom: 30px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 50px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ font-size: 13px;
+
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ border-bottom: 2px solid #3f0466;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+ border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+.main-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+	
+	.active-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+</style>
+
+<div class="right_col" role="main" style="min-height: 217px;">
+			<div id="navbar-animmenu">
+					<ul class="show-dropdown main-navbar">
+					<div class="hori-selector" style="left: 0px; width: 139.406px;"><div class="left"></div><div class="right"></div></div>
+						<li class="active" onclick="openevent('viewevent')">
+							<a href="#"><i class="fas fa-file"></i>View Supervisor</a>
+						</li>
+						<li class="" onclick="openevent('addevent')">
+							<a href="#"><i class="fas fa-plus"></i>Add Supervisor</a>
+						</li>
+					
+					</ul>
+			</div>
+			
+		
+			
+			
+			<section id="viewevent" class="event">
+				<div class="row">
+				<div class="col-md-12" style="padding: 15px 20px 0px 20px;">
+				<div class="table1">
+					  <div class="header_wrap">
+						<div class="num_rows">
+							<div class="form-group">
+								<select class="form-control" name="state" id="maxRows">
+									<option value="10">10</option>
+									<option value="15">15</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+									<option value="70">70</option>
+									<option value="100">100</option>
+									<option value="5000">Show ALL Rows</option>
+								</select>
+							</div>
+						</div>
+						<div class="tb_search">
+							<input type="text" id="search_input_all" onkeyup="FilterkeyWord_all_table()" placeholder="Search.."
+								class="form-control">
+						</div>
+					</div>
+					
+					  <table class="table table-striped table-class" id="table-id">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Mobile</th>
+									<th>Registration Date</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td><span><i class="fas fa-edit"></i></span> <span><i class="fas fa-times"></i></span></td>
+								</tr>
+								</tbody>
+								</table>
+								 <div class="pagination-container">
+            <nav>
+                <ul class="pagination">
+                    <li data-page="1" class="active"> <span>1<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="2"> <span>2<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="3"> <span>3<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="4"> <span>4<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="5"> <span>5<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="6"> <span>6<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="7"> <span>7<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="8"> <span>8<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="9"> <span>9<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="10"> <span>10<span class="sr-only">(current)</span></span> </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="rows_count">Showing 1 to 10 of 100 entries</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="addevent" class="event" style="display:none">
+			<div class="row">
+					<div class="row" style="margin: 0px;">
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        <div class="wrap-contact100">
+							<div class="heading">
+								<h4>Personal Info</h4>
+							</div>
+							<hr>
+				<form class="contact100-form validate-form">
+                         <div class="wrap-input100-radio validate-input">
+                          <span class="label-input100">Gender:</span>
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio" checked>Male
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio">Female
+                            </label>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="First Name is required">
+                            <span class="label-input100">First Name:</span>
+                            <input class="input100" type="text" name="name" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate = "Last Name is required">
+                            <span class="label-input100">Last Name:</span>
+                            <input class="input100" type="text" name="name" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                            <span class="label-input100">Email:</span>
+                            <input class="input100" type="email" name="email" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Date of Birth is required">
+                            <span class="label-input100">Date of Birth:</span>
+                            <input class="input100" type="date" name="date of birth" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                          <span class="label-input100">Password:</span>
+                          <input class="input100" type="password" name="password" placeholder="">
+                          <span class="focus-input100"></span>
+                      </div>
+
+                      <div class="wrap-input100 validate-input" data-validate="Re-Password is required">
+                        <span class="label-input100">Re-Password:</span>
+                        <input class="input100" type="password" name="re-password" placeholder="">
+                        <span class="focus-input100"></span>
+                    </div>
+        
+                        
+
+                    </form>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6 col-xs-12 col-sm-12">
+            <div class="container-contact100">
+                <div class="wrap-contact100">
+							<div class="heading">
+								<h4>Contact Info</h4>
+							</div>
+							<hr>
+                    <form class="contact100-form validate-form">
+                        <div class="wrap-input100 validate-input" data-validate="Address is required">
+                            <span class="label-input100">Address Line 1:</span>
+                            <input class="input100" type="text" name="address" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate = "Address is required">
+                            <span class="label-input100">Address Line 2:</span>
+                            <input class="input100" type="text" name="address" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate="City is required">
+                            <span class="label-input100">City:</span>
+                            <input class="input100" type="text" name="city" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate="State is required">
+                            <span class="label-input100">State:</span>
+                            <input class="input100" type="text" name="state" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Zipcode is required">
+                            <span class="label-input100">Zipcode:</span>
+                            <input class="input100" type="text" name="zipcode" placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate = "Mobile no. is required">
+                            <span class="label-input100">Mobile No.:</span>
+                            <input class="input100" type="text" name="mobile no." placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                        <div class="wrap-input100 validate-input" data-validate="Contact no. is required">
+                            <span class="label-input100">Contact No.:</span>
+                            <input class="input100" type="text" name="contact no." placeholder="">
+                            <span class="focus-input100"></span>
+                        </div>
+        
+                    </form>
+                </div>
+            </div>
+        </div>
+		<div class="col-md-12">
+			  <div class="btn-box">
+					<a href="" class="theme-btn btn-style-one" style="float:left;"><span class="btn-title">Add User</span></a>
+				</div>	
+		</div>
+			</div>
+	</div>
+</section>
+</div>
+
+
+<script>
+function opendetails(detailsName) {
+  var i;
+  var x = document.getElementsByClassName("details");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(detailsName).style.display = "block"; 
+
+	$(".tab-section > button").removeClass("active-tab");
+	$("[name="+detailsName+"]").addClass("active-tab");
+}
+
+function openevent(eventName) {
+  var i;
+  var x = document.getElementsByClassName("event");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(eventName).style.display = "block";  
+}
+</script>
+
+{% include "AdminPanel/footer.html" %}
+{% endblock %}

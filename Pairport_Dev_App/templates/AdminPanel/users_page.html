@@ -1,0 +1,315 @@
+{% load static %}
+{% block navigation %}
+{% include "AdminPanel/header.html" %} 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+<!-- Table Links -->
+<!-- <script src="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script> -->
+
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	.table1{
+	padding: 30px 30px 30px 30px;
+    background: #fafafa;
+	}
+	th {
+    background: #337ab7;
+    color: #fff;
+}
+.table{
+border: 1px solid #c5c3c3;
+}
+td{
+font-size:12px;
+}
+th{
+font-size:12px;
+}
+.fa, .fas {
+    font-weight: 900;
+    font-size: 15px;
+}
+#navbar-submenu button:hover, button.active, button.focus {
+    border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+}
+.tab {
+  overflow: hidden;
+ background-color:#337ab7;
+ margin-bottom: 30px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 50px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ font-size: 13px;
+
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ border-bottom: 2px solid #3f0466;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+ border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+.main-tab{
+		border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+	}
+	
+	.active-tab{
+		border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+	}
+	  .dataTable table tr {
+            border: solid 1px black;
+        }
+		
+
+</style>
+ 
+<div class="right_col" role="main" style="min-height: 217px;">
+			
+				<div id="navbar-animmenu" style="background-color:#337ab7">
+					<ul class="show-dropdown main-navbar">
+					<div class="hori-selector" style="left: 0px; width: 139.406px;"><div class="left"></div><div class="right"></div></div>
+						<li class="active">
+							<a href="#"><i class="fas fa-file"></i>User List</a>
+						</li>
+				
+					</ul>
+				</div>
+			
+			
+		
+		
+		
+		
+		
+		
+		
+		
+			<section id="viewevent" class="event">
+				<div class="row">
+				<div class="col-md-12" style="padding: 15px 20px 0px 20px;">
+				<div class="table1">
+				<table id="example" class="display table-class" style="width:100%">
+		    <thead>
+		        <tr>
+					 <th>Sr. No</th>
+    		        <th>Name </th>
+    		        <th>Email Id</th>
+    		        <th>Phone Number </th>
+		        </tr>
+		    </thead>
+		    <tbody>
+			{%for i in user_obj%}
+		        <tr>
+		            <td>{{forloop.counter}}</td><td>{{i.name}}</td><td>{{i.emal_id}}</td>
+					<td>{{i.fk_dialcode.dial_code}}{{i.phone_no}}</td>
+	            </tr>
+				{% endfor %}
+	         
+		    </tbody>
+		</table>
+		</div>
+				
+	</div>
+	</div>
+	</div>
+</section>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+	
+
+
+<script>
+<!-- $(document).ready(function() { -->
+    <!-- $('#example').DataTable( ); -->
+<!-- } ); -->
+
+
+$(document).ready(function() {
+    $('#test').DataTable();
+		
+		$(".tab-section > button").removeClass("active-tab");
+		$("#user_tab").addClass("active");
+		
+} );
+</script>
+
+<script>
+function opendetails(detailsName) {
+  var i;
+  var x = document.getElementsByClassName("details");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(detailsName).style.display = "block"; 
+
+	$(".tab-section > button").removeClass("active-tab");
+	$("[name="+detailsName+"]").addClass("active-tab");
+}
+
+function openevent(eventName) {
+  var i;
+  var x = document.getElementsByClassName("event");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(eventName).style.display = "block";  
+}
+
+
+
+function save_airport(){
+   
+   console.log("hi")
+   
+   var country_id = $("#country").val()
+   var city = $("#city").val()
+   var airport = $("#airport").val()
+  
+   
+	console.log(country_id)
+	console.log(airport)
+	
+	
+	
+	if (country_id == "")
+	{
+	$('#country_error').show()
+	}
+	
+	else if(city == "")
+	{
+	$('#city_error').show()
+	}
+	
+	else if(airport == "")
+	{
+	$('#airport_error').show()
+	}
+	
+
+	else{
+	$.ajax({
+			method : "POST",
+			url : "/save_airport_details/",
+			data : {
+					'country_id':country_id,
+					'city':city,
+					'airport':airport,
+					
+			},
+			success : function(response){
+				console.log(response)
+			if (response == "success")swal({
+				title: "Airport Added Successfully",
+				icon: "success",
+				button: "Ok",
+				closeOnClickOutside: false,
+			}).then(function() {
+				location.reload()
+			});
+				else (response == "Exists")
+				
+			}
+		});
+	}
+}
+
+$("#country").keyup(function(){
+	$("#country_error").hide();
+});
+
+$("#city").keyup(function(){
+	$("#city_error").hide();
+});
+
+$("#airport").keyup(function(){
+	$("#airport_error").hide();
+});
+
+
+
+</script>
+<script>
+function delete_airport(id){
+	console.log("delete*********")
+	swal({
+		title: "Are you sure?",
+		text: "To Delete this Entry!",
+		icon: "warning",
+	
+		buttons: ["No", "Yes"],
+		closeOnClickOutside: false,
+		dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				$.ajax({
+					method : "POST",
+					url : "/delete_airport/",
+					data : {
+						'id':id,
+					},
+					success : function(response){
+						if (response == "success"){
+							swal("Aiport Deleted Successfully !", {
+								icon: "success",
+								button: "Ok",
+								closeOnClickOutside: false,
+								}).then(function() {
+									location.reload();
+								});
+				
+						}
+					}
+				});
+				}
+	});
+}
+</script>
+
+{% include "AdminPanel/footer.html" %}
+{% endblock %}

@@ -1,0 +1,1744 @@
+{% load static %}
+{% block navigation %}
+{% include "AdminPanel/header.html" %} 
+<script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+
+<script type="text/javascript" src="lib.js"></script>
+
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	div { padding:10px;}
+</style>
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	.table1{
+	padding: 30px 30px 30px 30px;
+    background: #fafafa;
+	}
+	th {
+    background: #3f0466;
+    color: #fff;
+}
+.table{
+border: 1px solid #c5c3c3;
+}
+td{
+font-size:12px;
+}
+th{
+font-size:12px;
+}
+.fa, .fas {
+    font-weight: 900;
+    font-size: 15px;
+}
+#navbar-submenu button:hover, button.active, button.focus {
+    border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+}
+.tab {
+  overflow: hidden;
+ background-color: #f0f0f0;
+ margin-bottom: 30px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 50px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ font-size: 13px;
+
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ border-bottom: 2px solid #3f0466;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+ border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+.main-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+	
+	.active-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+</style>
+<div class="right_col" role="main" style="min-height: 217px;">
+			<div id="navbar-animmenu">
+					<ul class="show-dropdown main-navbar">
+					<div class="hori-selector" style="left: 0px; width: 139.406px;"><div class="left"></div><div class="right"></div></div>
+						<li class="active" onclick="openevent('personal')">
+							<a href="#"><i class="fas fa-file"></i>Personal Information</a>
+						</li>
+						<li class="" onclick="openevent('organization')">
+							<a href="#"><i class="fas fa-file"></i>Organization Informations</a>
+						</li>
+					<li class="" onclick="openevent('profile')">
+							<a href="#"><i class="fas fa-file"></i>Profile</a>
+						</li>
+						<li class="" onclick="openevent('customer')">
+							<a href="#"><i class="fas fa-file"></i>Customer</a>
+						</li>
+						<li class="" onclick="openevent('business')">
+							<a href="#"><i class="fas fa-file"></i>Business Objective</a>
+						</li>
+						<li class="" onclick="openevent('affiliations')">
+							<a href="#"><i class="fas fa-file"></i>Affiliations</a>
+						</li>
+						<li class="" onclick="openevent('changepwd')">
+							<a href="#"><i class="fas fa-file"></i>Change Password</a>
+						</li>
+						
+					</ul>
+			</div>
+			
+		
+			
+			
+		
+<section id="personal" class="event">
+		<div class="row" class="details">
+					<div class="row" style="margin: 0px;">{%for i in list%}
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+                          <h4>Personal Info</h4>
+						  </div>
+						  <hr>
+                            <form class="contact100-form validate-form">
+						
+                                <input type="hidden" id="id" value="{{i.fk_user}}">
+                                <div class="wrap-input100-radio validate-input">
+                                  <span class="label-input100" >Gender:</span>
+								  {%if i.gender == "male" %}
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender"   id ="male" value="male" checked>Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender"  id="female" value="female" >Female
+                                    </label>
+									{%else%}
+									  <label class="radio-inline">
+                                        <input type="radio" name="gender"   id ="male" value="male" >Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender"  id="female" value="female" checked>Female
+                                    </label>
+									{%endif%}
+									<input type="hidden" id="gender" name = "gender" >	
+                                </div>
+
+                                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">First Name<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="name"  id="first_name" placeholder="" value = "{{i.first_name}}">
+                                    <span class="focus-input100"></span>
+									 <span id="first_name_error" style="display:none;color:red;" >Please Enter First Name</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate = "Name is required">
+                                    <span class="label-input100">Last Name<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="name" id="last_name" placeholder="" value="{{i.last_name}}">
+                                    <span class="focus-input100"></span>
+									 <span id="last_name_error" style="display:none;color:red;" >Please Enter Last Name</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Email<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="email" name="email" id="email"   value="{{i.personal_email}}">
+                                    <span class="focus-input100"></span>
+									 <span id="email_error" style="display:none;color:red;" >Please Enter Email</span> 
+									<span style="display:none;color:red;"  id="emailm_error">Please Enter  Valid Email Id</span><br>
+
+
+                                </div>
+
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Date of Birth:</span>
+                                    <input class="input100" type="date" name="date of birth" id="date_of_birth"  value="{{i.date_of_birth|date:'Y-m-d'}}">
+                                    <span class="focus-input100"></span>
+                                </div>
+                
+				
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        <div class="wrap-contact100">
+							<div class="heading">
+                          <h4>Contact Info</h4>
+						  </div>
+						  <hr>
+                            <form class="contact100-form validate-form">
+                                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Address Line 1<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="address" id="add_1" placeholder=""  value="{{i.address_line_one}}">
+                                    <span class="focus-input100"></span>
+									 <span id="add_1_error" style="display:none;color:red;" >Please Enter Address Line 1</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Address Line 2:</span>
+                                    <input class="input100" type="text" name="address" id="add_2" placeholder="" value="{{i.address_line_two}}">
+                                    <span class="focus-input100"></span>
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">City<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="city" id="city" placeholder="" value="{{i.city}}">
+                                    <span class="focus-input100"></span>
+									 <span id="city_error" style="display:none;color:red;" >Please Enter City</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">State<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="state" id="state" placeholder="" value="{{i.state}}">
+                                    <span class="focus-input100"></span>
+									 <span id="state_error" style="display:none;color:red;" >Please Enter State</span> 
+
+                                </div>
+
+                                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Zipcode<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="zipcode" id="zipcode" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="{{i.zip_code}}">
+                                    <span class="focus-input100"></span>
+									<span id="zipcode_error" style="display:none;color:red;" >Please Enter Zipcode</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate = "Mobile no. is required">
+                                    <span class="label-input100">Mobile<span style="color:red">*</span>:</span>
+                                    <input class="input100" type="text" name="mobile no." id="mobile_no" maxlength = "10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder=""  value="{{i.mobile_no}}">
+                                    <span class="focus-input100"></span>
+									<span id="mobile_no_error" style="display:none;color:red;" >Please Enter Mobile Number</span> 
+
+                                </div>
+                
+                                <div class="wrap-input100 validate-input" data-validate="Contact no. is required">
+                                    <span class="label-input100">Contact Number.:</span>
+                                    <input class="input100" type="text" name="contact no." id="phone_no" maxlength = "10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="" value="{{i.phone_no}}">
+                                    <span class="focus-input100"></span>
+                                </div>
+                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+{%endfor%}
+              </div>
+			<div class="row text-center">
+			<div class="col-md-2" style="margin-top:-30px;">
+			  <div class="btn-box">
+						<!-- <a href="" class="theme-btn btn-style-one" style="float:left"  data-toggle="modal" data-target="#success_tic"><span class="btn-title">Update Details</span></a> -->
+						<a onclick="save_info()" class="theme-btn btn-style-one" style="float:left"  ><span class="btn-title">Update Details</span></a>
+				</div>
+			
+			</div>
+				<div class="col-md-2" style="margin-top:-30px;">	
+					<div class="btn-box">
+							<!-- <a href="" class="theme-btn btn-style-one" style="background: #3f0466;float:left" data-toggle="modal" data-target="#cancel"><span class="btn-title">Cancel</span></a> -->
+							<!-- <a href="" class="theme-btn btn-style-one" style="background: #3f0466;float:left" data-toggle="modal" data-target="#cancel"><span class="btn-title">Cancel</span></a> -->
+					</div>
+				</div>
+				</div>
+				</div>
+	</section>
+		
+
+<section id="organization" class="event" style="display:none">
+		<div class="row" class="details">
+				<div class="row" style="margin: 0px;">
+                    <div class="col-md-6 col-xs-12 col-sm-12">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Organization Info</h4>
+								</div>
+								<hr>
+                                <form class="contact100-form validate-form">
+									<input type="hidden" id="id" value="{{org_obj.fk_user.id}}">
+                                    <div class="wrap-input100 validate-input" data-validate="Name is required">
+									{%if org_obj.type_of_organization%}
+                                        <span class="label-input100">Type of Organization:</span>
+                                        <input class="input100" type="text" name="type of organization" id="type_of_organization" value="{{org_obj.type_of_organization}}">
+                                        <span class="focus-input100"></span>
+										<span id="type_of_organization_error" style="display:none;color:red;" >Please Enter Type of Organization</span> 
+
+									  {%else%}
+									   <span class="label-input100">Type of Organization:</span>
+									<input class="input100" type="text" name="type of organization" id="type_of_organization" >
+									<span id="type_of_organization_error" style="display:none;color:red;" >Please Enter Type of Organization</span> 
+
+									   {%endif%}
+									   <span class="focus-input100"></span>
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Organization Name:</span>
+										{%if org_obj.organization_name%}
+                                        <input class="input100" type="text" name="organization name" placeholder="" id="organization_name" value="{{org_obj.organization_name}}">
+
+									{%else%}
+									<input class="input100" type="text" name="organization name" placeholder="" id="organization_name" >
+				
+									   {%endif%}
+									   <span class="focus-input100"></span>
+										<span id="organization_name_error" style="display:none;color:red;" >Please Enter Organization Name</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Registration No.:</span>
+										{%if org_obj.registration_no%}
+                                        <input class="input100" type="text" name="registration no" placeholder="" id="registration_no" value="{{org_obj.registration_no}}">
+										{%else%}
+										<input class="input100" type="text" name="registration no" placeholder="" id="registration_no" >
+
+											{%endif%}
+									  <span class="focus-input100"></span>
+										<span id="registration_no_error" style="display:none;color:red;" >Please Enter Registration Number</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Registration Date:</span>
+										{%if org_obj.registration_date%}
+                                        <input class="input100" type="date" name="registration date" placeholder="" id="registration_date" value="{{org_obj.registration_date|date:'Y-m-d'}}">
+                                       {%else%}
+									   <input class="input100" type="date" name="registration date" placeholder="" id="registration_date">
+                                      {%endif%}
+									  <span class="focus-input100"></span>
+										<span id="registration_date_error" style="display:none;color:red;" >Please Enter Registration Date</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Validity Up To:</span>
+										{%if org_obj.validity_up_to%}
+                                        <input class="input100" type="date" name="validity" placeholder="" id="validity_up_to" value="{{org_obj.validity_up_to|date:'Y-m-d'}}">
+										{%else%}
+                                        <input class="input100" type="date" name="validity" placeholder="" id="validity_up_to">
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="validity_up_to_error" style="display:none;color:red;" >Please Enter Validity Up To</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100-file validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Company Logo:<br><span style="line-height:2.5">[ W: 245 x H:113]</span></span>
+                                       {%if org_obj.company_logo%}
+									   <input class="input100" type="file" name="logo" id="company_logo" src="{{org_obj.company_logo.url}}" placeholder="">
+											{%else%}
+								<input class="input100" type="file" name="logo" id="company_logo"  placeholder="">
+										{%endif%}
+									<span class="focus-input100"></span>
+
+                                    </div>
+    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12 col-sm-12">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Contact Info</h4>
+								</div>
+								<hr>
+                                <form class="contact100-form validate-form">
+                                    <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                        <span class="label-input100">Street Address:</span>
+										{%if org_obj.street_address%}
+                                        <input class="input100" type="text" name="address" placeholder="" id="street_address" value="{{org_obj.street_address}}">
+										{%else%}
+                                        <input class="input100" type="text" name="address" placeholder="" id="street_address">
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="street_address_error" style="display:none;color:red;" >Please Enter Street Address</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">City:</span>
+										{%if org_obj.city%}
+                                        <input class="input100" type="text" name="city" placeholder="" id= "cityy" value="{{org_obj.city}}">
+										{%else%}
+                                        <input class="input100" type="text" name="city" placeholder="" id= "cityy" >
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="cityyy_error" style="display:none;color:red;" >Please Enter City</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">State:</span>
+										{%if org_obj.state%}
+                                        <input class="input100" type="text" name="state" placeholder="" id="statee" value="{{org_obj.state}}">
+										{%else%}
+                                        <input class="input100" type="text" name="state" placeholder="" id="statee" >
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="statee_error" style="display:none;color:red;" >Please Enter State</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Country:</span>
+                                      
+                                           <select class="form-control alterationTypeSelect" name="alterationTypeSelect"id ="dial_code">
+													
+												
+										{% for i in dial_obj %}
+										{% if i.country_name == org_obj.fk_country.country_name   %}
+										<option value="{{i.id}}" selected>{{i.country_name}}</option>
+										{% else %}
+										<option value="{{i.id}}" >{{i.country_name}}</option>
+										{% endif %}
+										{% endfor %}
+                                            </select>
+                                        <span class="focus-input100"></span>
+										<span id="dial_code_error" style="display:none;color:red;" >Please Enter Country</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                        <span class="label-input100">Zipcode:</span>
+										{%if org_obj.zip_code%}
+                                        <input class="input100" type="number" name="zipcode" placeholder="" id = "zip_codee" value="{{org_obj.zip_code}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+										{%else%}
+                                        <input class="input100" type="number" name="zipcode" placeholder="" id = "zip_codee" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="zip_codee_error" style="display:none;color:red;" >Please Enter Zipcode</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Office Phone No.:</span>
+										{%if org_obj.phone_no_office%}
+                                        <input class="input100" type="text" name="phone" placeholder="" id="phone_no_office" value="{{org_obj.phone_no_office}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+										{%else%}
+                                        <input class="input100" type="text" name="phone" placeholder="" id="phone_no_office" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="phone_no_office_error" style="display:none;color:red;" >Please Enter Office Phone No.</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Mobile No.:</span>
+										{%if org_obj.mobile_no%}
+                                        <input class="input100" type="text" name="mobile no." placeholder="" id="mobile_noo" value="{{org_obj.mobile_no}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="12">
+										{%else%}
+                                        <input class="input100" type="text" name="mobile no." placeholder="" id="mobile_noo" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="12">
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="mobile_noo_error" style="display:none;color:red;" >Please Enter Mobile No.</span> 
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Fax No.:</span>
+										{%if org_obj.fax_no%}
+                                        <input class="input100" type="text" name="fax no." placeholder="" id="fax_no" value="{{org_obj.fax_no}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+										{%else%}
+                                        <input class="input100" type="text" name="fax no." placeholder="" id="fax_no" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+										{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="fax_no_error" style="display:none;color:red;" >Please Enter Fax No.</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                        <span class="label-input100">Contact Email:</span>
+										{%if org_obj.contact_email%}
+                                        <input class="input100" type="text" name="email" placeholder="" id="contact_email" value="{{org_obj.contact_email}}">{%else%}
+                                        <input class="input100" type="text" name="email" placeholder="" id="contact_email">{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="contact_email_error" style="display:none;color:red;" >Please Enter Contact Email</span> 
+										<span style="display:none;color:red;"  id="contact_emailm_error">Please Enter  Valid Email Id</span><br>
+
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Domain:</span>
+										{%if org_obj.domain%}
+                                        <input class="input100" type="text" name="domain" placeholder="" id="domain" value="{{org_obj.domain}}">{%else%}
+                                        <input class="input100" type="text" name="domain" placeholder="" id="domain">{%endif%}
+                                        <span class="focus-input100"></span>
+										<span id="domain_error" style="display:none;color:red;" >Please Enter Domain</span> 
+
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                        <span class="label-input100">Register for Category:</span>
+										{%if org_obj.register_for_category%}
+                                         <input class="input100" type="text" name="domain" placeholder="" id="register_for_category" value="{{org_obj.register_for_category}}">
+										 {%else%}
+                                         <input class="input100" type="text" name="domain" placeholder="" id="register_for_category" >
+										 {%endif%}
+
+                                        <span class="focus-input100"></span>
+										<span id="register_for_category_error" style="display:none;color:red;" >Please Enter Register for Category</span> 
+
+                                    </div>
+                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+                 
+                </div>
+				<div class="row text-center">
+			<div class="col-md-6" style="margin-top:-100px;">
+			  
+			  <div class="btn-box">
+								<a onclick="save_org_info()" class="theme-btn btn-style-one" style="float:left"><span class="btn-title">Update Details</span></a>
+						</div>
+						</div>
+				</div>
+		</div>
+	</section>
+		
+	<section id="profile" class="event" style="display:none">
+		<div class="row" class="details">
+		 <div class="row" style="margin: 0px;">
+                    <div class="col-md-10 col-xs-12 col-sm-12 col-md-offset-1">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Profile Info</h4>
+								</div>
+								<hr>
+                                <form class="contact100-form validate-form">
+							
+									<input type="hidden" id = "id" value="{{profile_obj.fk_user.id}}">
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Vision:</span>
+										{%if profile_obj.vision%}
+                                        <textarea class="input100" name="message" rows="2" placeholder="" id="vision"style="outline-style: none;">{{profile_obj.vision}}</textarea>{%else%}
+                                        <textarea class="input100" name="message" rows="2" placeholder="" id="vision" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Mission:</span>
+										{% if profile_obj.mission%}
+                                        <textarea class="input100" name="message" rows="2" placeholder="" id= "mission" style="outline-style: none;">{{profile_obj.mission}}</textarea>{%else%}
+                                        <textarea class="input100" name="message" rows="2" placeholder=""  id= "mission" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+                    
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Describe your<br><span style="line-height:2.5">product or</span><br>service offering:</span>
+											{%if profile_obj.desc_your_product%}
+										<textarea class="input100" name="message" rows="2" placeholder="" id="desc_your_product" style="outline-style: none;">{{profile_obj.desc_your_product}}</textarea>{%else%}
+										<textarea class="input100" name="message" rows="2" placeholder="" id="desc_your_product" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">History:</span>
+										 {%if profile_obj.history%}
+                                        <textarea class="input100" name="message" rows="2" id="history" placeholder="" style="outline-style: none;">{{profile_obj.history}}</textarea>{%else%}
+                                        <textarea class="input100" name="message" rows="2" id="history" placeholder="" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+    
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Values:</span>
+										{%if profile_obj.values%}
+                                        <textarea class="input100" name="message" rows="2" id="values" placeholder="" style="outline-style: none;">{{profile_obj.values}}</textarea>{%else%}
+                                        <textarea class="input100" name="message" rows="2" id="values" placeholder="" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+                    
+    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+                   
+                    
+                </div>
+	<div class="row text-center">
+	<div class="col-md-4"></div>
+			<div class="col-md-4">
+			  
+			  <div class="btn-box">
+								<a onclick="save_profile_info()" class="theme-btn btn-style-one" style="float:left"><span class="btn-title">Update Details</span></a>
+						</div>
+						</div>
+							<div class="col-md-4"></div>
+				</div>
+		</div>		
+	</section>
+	
+<section id="customer" class="event" style="display:none">
+		<div class="row" class="details">	
+		   <div class="row" style="margin: 0px;">
+                    <div class="col-md-10 col-xs-12 col-sm-12 col-md-offset-1">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Customer Info</h4>
+								</div>
+								<hr>
+                                <form class="contact100-form validate-form">
+										<input type="hidden" id = "id" value="{{profile_obj.fk_user.id}}">
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Describes which<br><span style="line-height:2.5">customers it serves:</span></span>
+                                       {%if profile_obj.customer_serves%}
+									   <textarea class="input100" name="message"  id="customer_serves"  placeholder="Describes which customers it serves" style="outline-style: none;">{{profile_obj.customer_serves}}</textarea>{%else%}
+									   <textarea class="input100" name="message" placeholder="Describes which customers it serves" id="customer_serves" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	<div class="row text-center">
+	<div class="col-md-4"></div>
+			<div class="col-md-4">
+			  <div class="btn-box">
+								<a onclick="save_customer_serve()" class="theme-btn btn-style-one" style="float:left"><span class="btn-title">Update Details</span></a>
+						</div>
+						</div>
+							<div class="col-md-4"></div>
+				</div>
+		</div>
+		</section>
+			
+	
+<section id="changepwd" class="event" style="display:none">
+		<div class="row" class="details">	
+		   <div class="row" style="margin: 0px;">
+                    <div class="col-md-10 col-xs-12 col-sm-12 col-md-offset-1">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Change Password</h4>
+								</div>
+								<hr>
+                               <form class="contact100-form validate-form">
+    
+                                    <div class="col-md-8 col-md-offset-2">
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Current Password:</span>
+                                        <input class="input100" type="password" id ="current_password" name="domain" placeholder="">
+										
+										<span id="current_password_error" style="display:none;color:red;">Please Enter Current Password.</span>
+                                        <span class="focus-input100"></span>
+                                    </div>
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">New Password:</span>
+                                        <input class="input100" type="text" id="new_password" name="domain" placeholder="">
+										
+										<span id="new_password_error" style="display:none;color:red;">Please Enter New Password.</span>
+                                        <span class="focus-input100"></span>
+                                    </div>
+                                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Confirm Password:</span>
+                                        <input class="input100" type="text" id="confirm_password" name="domain" placeholder="">
+										
+										<span id="confirm_password_error" style="display:none;color:red;">Please Enter Confirm Password.</span>
+										<span id="error_match" style = "display:none;color:red;">Password Not Match.</span>
+							
+                                        <span class="focus-input100"></span>
+                                    </div>
+                                    </div>
+                    
+    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+                 
+                </div>
+	<div class="row text-center">
+	<div class="col-md-4"></div>
+			<div class="col-md-4">
+			  
+			  <div class="btn-box">
+								<a onclick="change_pass()" class="theme-btn btn-style-one"  style="float:left"  ><span  class="btn-title" >Update Details</span></a>
+								
+						</div>
+						</div>
+							<div class="col-md-4"></div>
+				</div>
+
+		</div>
+		</section>		
+<section id="business" class="event" style="display:none">
+		<div class="row" class="details">	
+		   <div class="row" style="margin: 0px;">
+                    <div class="col-md-10 col-xs-12 col-sm-12 col-md-offset-1">
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Business Objective</h4>
+								</div>
+								<hr>
+                                <form class="contact100-form validate-form">
+								<input type="hidden" id = "id" value="{{profile_obj.fk_user.id}}">
+							
+                                    <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                        <span class="label-input100">Describes Business <br><span style="line-height:2.5">Objective:</span></span>
+										{%if profile_obj.business_objective%}
+                                        <textarea class="input100" name="message" placeholder="Describes Busness Objective" id="business_objective" style="outline-style: none;">{{profile_obj.business_objective}}</textarea>{%else%}
+                                        <textarea class="input100" name="message" placeholder="Describes Busness Objective" id="business_objective" style="outline-style: none;"></textarea>{%endif%}
+                                        <span class="focus-input100"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+    
+                 
+                </div>
+	<div class="row text-center">
+	<div class="col-md-4"></div>
+			<div class="col-md-4">
+			  
+			  <div class="btn-box">
+								<a onclick="save_business_objective()" class="theme-btn btn-style-one" style="float:left"><span class="btn-title">Update Details</span></a>
+						</div>
+						</div>
+							<div class="col-md-4"></div>
+				</div>
+
+		</div>
+		</section>
+			<section id="affiliations" class="event" style="display:none">
+				<div class="row">
+		   <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Affiliations</h4>
+								</div>
+						
+                                <form  id ="addcompany" class="contact100-form validate-form">
+								<input type="hidden" id = "id" value="{{company_obj.fk_user.id}}">
+                                    <div  id="dynamicInput" class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Company Name:</span>
+										<input class="input100" id="company_name"  type="text" name="myInputs[]"  placeholder="">
+                                        <span class="focus-input100"></span>
+										<span id="company_name_error" style="display:none;color:red;" >Please Enter Comapny Name</span> 
+
+									<!-- <a onclick="save_company_name()" class="theme-btn btn-style-one" style="float:right;padding: 3px 30px;"><span class="btn-title">Add Details</span></a> -->
+									<a onclick="addRow();" class="theme-btn btn-style-one" style="float:right;padding: 3px 30px;"><span class="btn-title">Add Company Name</span></a>
+
+                                    </div>
+                                </form>
+								
+								
+								
+								<form  id ="updatecompany" style="display:none" class="contact100-form validate-form">
+								<!-- <input type="hidden" id = "id" value="{{company_obj.fk_user.id}}"> -->
+										<input type="hidden" id="up_company_id" value="">
+                                    <div  id="dynamicInput" class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                        <span class="label-input100">Company Name:</span>
+										
+										<input class="input100" id="up_company_name"  type="text" name="myInputs[]"  placeholder="">
+                                        <span class="focus-input100"></span>
+									<a onclick="update_company_name()" class="theme-btn btn-style-one" style="float:right;padding: 3px 30px;"><span class="btn-title">Update Details</span></a>
+
+                                    </div>
+                                </form>
+                            <!-- </div> -->
+				<!-- <div class="col-md-12" style="padding: 15px 20px 0px 20px;"> -->
+				<div class="col-md-12" style="padding:0px;">
+				<div class="table1">
+					  <div class="header_wrap">
+						<div class="num_rows">
+							<div class="form-group">
+								<select class="form-control" name="state" id="maxRows">
+									<option value="10">10</option>
+									<option value="15">15</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+									<option value="70">70</option>
+									<option value="100">100</option>
+									<option value="5000">Show ALL Rows</option>
+								</select>
+							</div>
+						</div>
+						<div class="tb_search">
+							<input type="text" id="search_input_all" onkeyup="FilterkeyWord_all_table()" placeholder="Search.."
+								class="form-control">
+						</div>
+					</div>
+					
+					  <table class="table table-striped table-class" id="table-id">
+							<thead>
+								<tr>
+									<th>Comapny Name</th>
+								
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							{%for i in company_obj %}
+								<tr>
+									<td>{{i.company_name}}</td>
+
+									<td><span onclick="get_data('{{i.id}}')"><i class="fas fa-edit" ></i></span><span  onclick="delete_name('{{i.id}}')"><i class="fas fa-times"></i></span></td>
+								
+								</tr>
+								{%endfor%}
+								</tbody>
+								</table>
+								 <div class="pagination-container">
+            <nav>
+                <ul class="pagination">
+                    <li data-page="1" class="active"> <span>1<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="2"> <span>2<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="3"> <span>3<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="4"> <span>4<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="5"> <span>5<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="6"> <span>6<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="7"> <span>7<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="8"> <span>8<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="9"> <span>9<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="10"> <span>10<span class="sr-only">(current)</span></span> </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="rows_count">Showing 1 to 10 of 100 entries</div>
+			</div>
+		</div>
+	</div>
+	
+	</div>
+	</div>
+</section>
+
+		
+		
+</div>
+
+
+
+<!-- Modal for password -->
+
+<div class="modal fade" id="success_tic" role="dialog">
+    <div class="modal-dialog">
+	
+     <div class="modal-content">
+	   <div class="">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+       <div class="modal-body">
+		<h1 style="text-align:center;"><div class="checkmark-circle">
+			  <div class="background"></div>
+			  <div class="checkmark draw"></div>
+			</div>
+			</h1> 
+		   <div class="head" style="text-align: center;">  
+		  <h3 style="margin-top:5px;">Changes Has Been Updated!</h3>
+		  <!-- <h4>Lorem ipsum dolor sit amet</h4> -->
+		</div>
+        </div>
+		                             
+       </div>
+    </div>
+  </div>
+  
+ <div class="modal fade" id="delete" role="dialog">
+    <div class="modal-dialog">
+	
+     <div class="modal-content">
+	   <div class="">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+       <div class="modal-body">
+		<h1 style="text-align:center;"><div class="checkmark-circle">
+			  <div class="background"></div>
+			  <div class="checkmark draw"></div>
+			</div>
+			</h1> 
+		   <div class="head" style="text-align: center;">  
+		  <h3 style="margin-top:5px;">Entry Deleted Successfully !</h3>
+		  <!-- <h4>Lorem ipsum dolor sit amet</h4> -->
+		</div>
+        </div>
+		                             
+       </div>
+    </div>
+  </div>
+  
+  
+  <div id="cancel" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+			<div class="cancel" style="margin-left: 231px;">
+			<i class="fa fa-times" aria-hidden="true"></i>
+			</div>
+         <div class="head" style="text-align: center;">  
+		  <h3 style="margin-top:5px;">Current Password Not Match </h3>
+		  <!-- <h4>Lorem ipsum dolor sit amet</h4> -->
+		</div>
+      </div>
+     
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- <script> -->
+<!-- var counter = 1; -->
+<!-- var limit = 20; -->
+<!-- function addInput(divName){ -->
+     <!-- if (counter == limit)  { -->
+          <!-- alert("You have reached the limit of adding " + counter + " inputs"); -->
+     <!-- } -->
+     <!-- else { -->
+          <!-- var newdiv = document.createElement('span'); -->
+          <!-- newdiv.innerHTML = "Company Name " + (counter + 1) + ": <br><input class='input100' id='company_name' type='text' placeholder='' name='myInputs[]'>"; -->
+          <!-- document.getElementById(divName).appendChild(newdiv); -->
+          <!-- counter++; -->
+     <!-- } -->
+<!-- } -->
+
+
+<!-- </script> -->
+
+
+
+
+
+
+
+
+<!-- <script> -->
+
+
+<!-- var room = 1; -->
+<!-- function add_fields() { -->
+    <!-- room++; -->
+    <!-- var objTo = document.getElementById('room_fileds') -->
+    <!-- var divtest = document.createElement("div"); -->
+    <!-- divtest.innerHTML = '<span class="label-input100">Company Name  ' + room +':</span><input class="input100" type="text" name="width[]" placeholder=""></input><span class="focus-input100"></span>'; -->
+    
+    <!-- objTo.appendChild(divtest) -->
+<!-- } -->
+     
+
+
+<!-- </script> -->
+
+
+
+<!-- <script> -->
+
+<!-- $(document).ready(function() { -->
+	<!-- var max_fields      = 10;  -->
+	<!-- var wrapper   		= $("#inputdiv");  -->
+	<!-- var add_button      = $("#click");  -->
+	
+	<!-- var x = 1;  -->
+	<!-- $(add_button).click(function(e){  -->
+		<!-- e.preventDefault(); -->
+		<!-- if(x < max_fields){  -->
+			<!-- x++;  -->
+			<!-- $(wrapper).append('<div><form  class="contact100-form validate-form"> <span class="label-input100">Company Name 01:</span><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a><span class="focus-input100"></span></form></div>'); //add input box -->
+		<!-- } -->
+	<!-- }); -->
+	
+	<!-- $(wrapper).on("click",".remove_field", function(e){ -->
+		<!-- e.preventDefault(); $(this).parent('div').remove(); x--; -->
+	<!-- }) -->
+<!-- }); -->
+
+<!-- </script> -->
+
+
+<!-- <script> -->
+<!-- $("#addNewTeam").click(function(){ -->
+    <!-- var elem = $("<input/>",{ -->
+		
+        <!-- type: "text", -->
+        <!-- name: "teamName[]", -->
+		<!-- class:"input100" , -->
+			
+    <!-- }); -->
+      <!-- var elems = $("<span/>",{ -->
+		
+       <!-- class:"focus-input100", -->
+	
+    <!-- }); -->
+    <!-- var removeLink = $("<span/>").html("X").click(function(){ -->
+        <!-- $(elem).remove(); -->
+        <!-- $(this).remove(); -->
+    <!-- }); -->
+    
+    <!-- $("#teamArea").append(elem).append(elems).append(removeLink); -->
+<!-- }); -->
+<!-- </script> -->
+
+
+ 
+<script>
+function opendetails(detailsName) {
+  var i;
+  var x = document.getElementsByClassName("details");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(detailsName).style.display = "block";  
+}
+</script>
+
+<script>
+function openevent(eventName) {
+  var i;
+  var x = document.getElementsByClassName("event");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(eventName).style.display = "block";  
+}
+</script>
+
+<script>
+<!-- ******************************##############################Change password function -->
+function change_pass(){
+	console.log("hiiiiiiiiiiiii")
+	var current_password = $("#current_password").val();
+	var new_password = $("#new_password").val();
+	var confirm_password = $("#confirm_password").val();
+
+	console.log("current_password",current_password)
+	console.log("new_password",new_password)
+	console.log("confirm_password",confirm_password)
+	
+	if (current_password==""){
+			$('#current_password_error').show()
+		}
+	else if (new_password==""){
+			$('#new_password_error').show()
+		}
+	else if(confirm_password==""){
+			$('#confirm_password_error').show()
+		}
+	
+	else if (confirm_password != new_password){
+		$('#error_match').show()
+	}
+	
+		else{
+		
+		$.ajax({
+			method : "POST",
+			url :'/change_password/',
+			data :{
+				'current_password':current_password,
+				'new_password':new_password,
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "exists"){
+					<!-- swal("Current Password Not Match") -->
+					 $('#cancel').modal('toggle');
+				}
+				else{
+					<!-- swal("Password has been Updated!", { -->
+							<!-- icon: "success", -->
+							<!-- button: "Ok", -->
+							<!-- closeOnClickOutside: false, -->
+							<!-- }).then(function() { -->
+								<!-- location.reload(); -->
+						<!-- }); -->
+						
+						<!-- $('#success_tic').show() -->
+						 $('#success_tic').modal('toggle');
+
+						$('#current_password').val("")
+						$('#new_password').val("")
+						$('#confirm_password').val("")
+				
+				}
+			}
+		});
+		
+		}
+
+	}
+	
+	
+$('#current_password').keyup(function(){
+	$('#current_password_error').hide();
+})	
+$('#new_password').keyup(function(){
+	$('#new_password_error').hide();
+})	
+$('#confirm_password').keyup(function(){
+	$('#confirm_password_error').hide();
+})
+
+$('#confirm_password').keyup(function(){
+	$('#error_match').hide();
+})
+
+ <!--********************************************************** end Change password funtion -->
+ 
+ 
+ 
+ $(document).ready(function(){
+	$("#male").click(function(){
+		var male= $("input[name='gender']:checked").val();
+		$("#gender").val(male)
+	});
+		
+		
+	$("#female").click(function(){
+		var female = $("input[name='gender']:checked").val();
+		$("#gender").val(female)
+	});
+	
+}); 
+ 
+ 
+
+
+ <!-- ##########################save personal information -->
+var emailfilter = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+
+function save_info(){
+
+var id = $('#id').val();
+var gender = $('#gender').val();
+var first_name = $('#first_name').val();
+var last_name = $('#last_name').val();
+var email = $('#email').val();
+var date_of_birth = $('#date_of_birth').val();
+var add_1 = $('#add_1').val();
+var add_2 = $('#add_2').val();
+var city = $('#city').val();
+var state = $('#state').val();
+var zipcode = $('#zipcode').val();
+var mobile_no = $('#mobile_no').val();
+var phone_no = $('#phone_no').val();
+
+console.log("id-----",id)
+console.log("gender-----",gender)
+if(first_name==""){
+	$('#first_name_error').show()
+}
+else if(last_name==""){
+	$('#last_name_error').show()
+}
+else if(email==""){
+	$('#email_error').show()
+}
+
+else if(! emailfilter.test(email)){
+		$('#emailm_error').show()
+	}
+
+else if(add_1==""){
+	$('#add_1_error').show()
+}
+else if(city==""){
+	$('#city_error').show()
+}
+else if(state==""){
+	$('#state_error').show()
+}
+else if(zipcode==""){
+	$('zipcode_error').show()
+}
+else if(mobile_no==""){
+	$('#mobile_no_error').show()
+}
+
+
+
+else{
+	   
+	   $.ajax({
+			method : "POST",
+			url :'/update_personal_info/',
+			data :{
+				'id':id,
+				'first_name':first_name,
+				'last_name':last_name,
+				'email':email,
+				'date_of_birth':date_of_birth,
+				'add_1':add_1,
+				'add_2':add_2,
+				'city':city,
+				'state':state,
+				'zipcode':zipcode,
+				'mobile_no':mobile_no,
+				'phone_no':phone_no,
+				'gender':gender,
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					
+				<!-- swal("Update Personal Information Saved!", { -->
+							<!-- icon: "success", -->
+							<!-- button: "Ok", -->
+							<!-- closeOnClickOutside: false, -->
+							<!-- }).then(function() { -->
+								<!-- location.reload(); -->
+						<!-- }); -->
+					
+					
+					 $('#success_tic').modal('toggle');
+
+					
+					
+				}
+				else{
+				 <!-- $('#cancel').modal('toggle'); -->
+				swal("Email Exists !")
+				}
+				
+			}
+		});
+	  
+	   
+	   }
+
+
+}
+	
+$("#first_name").keyup(function(){
+	$("#first_name_error").hide();
+});
+
+$("#last_name").keyup(function(){
+	$("#last_name_error").hide();
+});
+
+$("#email").keyup(function(){
+	$("#email_error").hide();
+	$("#emailm_error").hide();
+});
+
+$("#add_1").keyup(function(){
+	$("#add_1_error").hide();
+});
+
+$("#city").keyup(function(){
+	$("#city_error").hide();
+});
+
+$("#state").keyup(function(){
+	$("#state_error").hide();
+});
+
+$("#zipcode").keyup(function(){
+	$("#zipcode_error").hide();
+});
+
+$("#mobile_no").keyup(function(){
+	$("#mobile_no_error").hide();
+});
+
+<!-- ###################################Save information of oranization -->
+function save_org_info(){
+	console.log("hiiiiiiiiiiiii")
+	var id = $("#id").val();
+	var type_of_organization = $("#type_of_organization").val();
+	var organization_name = $("#organization_name").val();
+	var registration_no = $("#registration_no").val();
+	var registration_date = $("#registration_date").val();
+	var validity_up_to = $("#validity_up_to").val();
+	var street_address = $("#street_address").val();
+	var city = $("#cityy").val();
+	var state = $("#statee").val();
+	var zip_code = $("#zip_codee").val();
+	var phone_no_office = $("#phone_no_office").val();
+	var mobile_no = $("#mobile_noo").val();
+	var fax_no = $("#fax_no").val();
+	var contact_email = $("#contact_email").val();
+	var domain = $("#domain").val();
+	var register_for_category = $("#register_for_category").val();
+	var company_logo = $("#company_logo").val();
+	var dial_code = $("#dial_code").val();
+
+		console.log("dial_code",dial_code)
+		console.log("validity_up_to-------",validity_up_to)
+		console.log("registration_date-------",registration_date)
+	if (type_of_organization==""){
+		$('#type_of_organization_error').show()
+	}
+	
+	else if(organization_name==""){
+	$('#organization_name_error').show()
+	}	
+	
+	
+	else if(registration_no==""){
+	$('#registration_no_error').show()
+	}	
+	else if(registration_date==""){
+	$('#registration_date_error').show()
+	}	
+	else if(validity_up_to==""){
+	$('#validity_up_to_error').show()
+	}	
+	else if(street_address==""){
+	$('#street_address_error').show()
+	}	
+	else if(city==""){
+	$('#cityyy_error').show()
+	}	
+	else if(state ==""){
+	$('#statee_error').show()
+	}	
+	else if(zip_code==""){
+	$('#zip_codee_error').show()
+	}	
+	else if(phone_no_office==""){
+	$('#phone_no_office_error').show()
+	}	
+	
+	else if(mobile_no==""){
+	$('#mobile_noo_error').show()
+	}
+	else if(fax_no==""){
+	$('#fax_no_error').show()
+	}
+		else if(contact_email==""){
+	$('#contact_email_error').show()
+	}
+	else if(! emailfilter.test(contact_email)){
+		$('#contact_emailm_error').show()
+	}
+	else if(domain==""){
+	$('#domain_error').show()
+	}
+	
+
+	else if(register_for_category==""){
+	$('#register_for_category_error').show()
+	}
+	else if(dial_code==""){
+	$('#dial_code_error').show()
+	}	
+	
+
+	
+	else {
+		var form = $("#form_data")[0];
+
+		var data_item = new FormData(form);
+		data_item.append("id",id)
+		data_item.append("type_of_organization",type_of_organization)
+		data_item.append("organization_name",organization_name)
+		data_item.append("registration_no",registration_no)
+		data_item.append("registration_date",registration_date)
+		data_item.append("validity_up_to",validity_up_to)
+		data_item.append("street_address",street_address)
+		data_item.append("city",city)
+		data_item.append("state",state)
+		data_item.append("zip_code",zip_code)
+		data_item.append("phone_no_office",phone_no_office)
+		data_item.append("mobile_no",mobile_no)
+		data_item.append("fax_no",fax_no)
+		data_item.append("contact_email",contact_email)
+		data_item.append("domain",domain)
+		data_item.append("register_for_category",register_for_category)
+		data_item.append("company_logo",company_logo)
+		data_item.append("dial_code",dial_code)
+		
+	$.ajax({
+		url:"/save_organization_data/",
+		method : "POST",
+		enctype : "mutipart/form_data",
+		processData : false,
+		contentType : false,
+		cache : false,
+		data : data_item,
+			success : function(response){
+				console.log(response)
+				$("#loading").hide()
+			 if (response == "success"){
+					 $('#success_tic').modal('toggle');
+				}
+			}
+		});
+
+	}
+}
+
+
+$("#type_of_organization").keyup(function(){
+	$("#type_of_organization_error").hide();
+});
+
+$("#organization_name").keyup(function(){
+	$("#organization_name_error").hide();
+});
+
+$("#registration_no").keyup(function(){
+	$("#registration_no_error").hide();
+});
+
+$("#registration_date").change(function(){
+	$("#registration_date_error").hide();
+});
+
+$("#validity_up_to").change(function(){
+	$("#validity_up_to_error").hide();
+});
+
+$("#street_address").keyup(function(){
+	$("#street_address_error").hide();
+});
+
+
+$("#cityy").keyup(function(){
+	$("#cityyy_error").hide();
+});
+
+$("#statee").keyup(function(){
+	$("#statee_error").hide();
+});
+
+$("#zip_codee").keyup(function(){
+	$("#zip_codee_error").hide();
+});
+
+$("#phone_no_office").keyup(function(){
+	$("#phone_no_office_error").hide();
+});
+
+$("#mobile_noo").keyup(function(){
+	$("#mobile_noo_error").hide();
+});
+
+$("#fax_no").keyup(function(){
+	$("#fax_no_error").hide();
+});
+
+$("#contact_email").keyup(function(){
+	$("#contact_email_error").hide();
+	$("#contact_emailm_error").hide();
+});
+
+$("#domain").keyup(function(){
+	$("#domain_error").hide();
+});
+
+$("#register_for_category").keyup(function(){
+	$("#register_for_category_error").hide();
+});
+$("#dial_code").change(function(){
+	$("#dial_code_error").hide();
+});
+
+
+function save_profile_info(){
+ var id = $('#id').val();
+ var vision = $('#vision').val();
+ var mission = $('#mission').val();
+ var desc_your_product = $('#desc_your_product').val();
+ var history = $('#history').val();
+ var values = $('#values').val();
+ console.log("id",id)
+$.ajax({
+			method : "POST",
+			url :'/save_profile_info/',
+			data :{
+				'id':id,
+				'vision':vision,
+				'mission':mission,
+				'desc_your_product':desc_your_product,
+				'history':history,
+				'values':values,
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					 $('#success_tic').modal('toggle');
+				}
+				else{
+					
+					$('#cancel').modal('toggle');
+				
+				}
+			}
+		});
+
+}
+
+
+
+function save_customer_serve(){
+ var id = $('#id').val();
+ var customer_serves = $('#customer_serves').val();
+
+ console.log("id",id)
+$.ajax({
+			method : "POST",
+			url :'/save_customer_serve/',
+			data :{
+				'id':id,
+				'customer_serves':customer_serves,
+				
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					 $('#success_tic').modal('toggle');
+				}
+				else{
+					
+					$('#cancel').modal('toggle');
+				
+				}
+			}
+		});
+
+}
+
+
+function save_business_objective(){
+ var id = $('#id').val();
+ var business_objective = $('#business_objective').val();
+
+ console.log("id",id)
+ console.log("business_objective",business_objective)
+$.ajax({
+			method : "POST",
+			url :'/save_business_objective/',
+			data :{
+				'id':id,
+				'business_objective':business_objective,
+				
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					 $('#success_tic').modal('toggle');
+				}
+				else{
+					
+					$('#cancel').modal('toggle');
+				
+				}
+			}
+		});
+
+}
+
+
+
+function save_company_name(){
+ var id = $('#id').val();
+ var company_name = $('#company_name').val();
+
+ console.log("id",id)
+$.ajax({
+			method : "POST",
+			url :'/save_company_name/',
+			data :{
+				'id':id,
+				'company_name':company_name,
+				
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					 $('#success_tic').modal('toggle');
+					 location.reload();
+				}
+				else{
+					
+					$('#cancel').modal('toggle');
+				
+				}
+			}
+		});
+
+}
+
+function get_data(id){
+console.log("get_data",id)
+	$.ajax({	
+				method:'POST',
+				url:'/get_company_name/',
+				data:{
+				'company_id': id
+		},
+	success:function(response){
+	console.log(response)
+	<!-- alert(response) -->
+	$('#addcompany').hide();
+	$('#updatecompany').show();
+	
+	$('#up_company_name').val(response['company_name']);
+	$('#up_company_id').val(response['company_id']);
+	}
+	
+	});
+	
+}
+
+
+
+
+
+function update_company_name(){
+var up_company_id = $("#up_company_id").val();
+var up_company_name = $("#up_company_name").val()
+
+console.log('up_company_id',up_company_name)
+$.ajax({
+			method : "POST",
+			url :'/update_company_name/',
+			data :{
+				'up_company_id':up_company_id,
+				'up_company_name':up_company_name,
+				
+			},
+			success : function(response){
+				console.log(response)
+				if (response == "success"){
+					 $('#success_tic').modal('toggle');
+					 location.reload();
+				}
+				else{
+					
+					$('#cancel').modal('toggle');
+				
+				}
+			}
+		});
+
+
+}
+
+
+function delete_name(id){
+	console.log("delete*********")
+	swal({
+		title: "Are you sure?",
+		text: "To Delete this Entry!",
+		icon: "warning",
+		buttons: ["No", "Yes"],
+		closeOnClickOutside: false,
+		dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+			
+				$.ajax({
+					method : "POST",
+					url : "/delete_company_name/",
+					data : {
+						'id':id,
+					},
+					success : function(response){
+						if (response == "success"){
+							<!-- swal("Company Name Deleted Successfully !", { -->
+								<!-- icon: "success", -->
+								<!-- button: "Ok", -->
+								<!-- closeOnClickOutside: false, -->
+								<!-- }).then(function() { -->
+									<!-- location.reload(); -->
+								<!-- }); -->
+				
+				$('#delete').modal('toggle');
+				location.reload();
+						}
+					}
+				})
+				
+			}
+			
+	});
+}
+
+
+
+</script>
+<script>
+            
+            function addRow()
+            {
+                // get input values
+                var company_name = document.getElementById('company_name').value;
+                 
+                  // get the html table
+                  // 0 = the first table
+                  var table = document.getElementsByTagName('table')[0];
+                  
+                  // add new empty row to the table
+                  // 0 = in the top 
+                  // table.rows.length = the end
+                  // table.rows.length/2+1 = the center
+                  <!-- var newRow = table.insertRow(table.rows.length/2+1); -->
+                  var newRow = table.insertRow(1);
+                  
+                  // add cells to the row
+                  var cel1 = newRow.insertCell(0);
+              
+                  
+                  // add values to the cells
+                  cel1.innerHTML = company_name;
+            }
+            
+        </script>
+{% include "AdminPanel/footer.html" %}
+{% endblock %}

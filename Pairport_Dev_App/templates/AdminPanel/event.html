@@ -1,0 +1,1032 @@
+{% load static %}
+{% block navigation %}
+{% include "AdminPanel/header.html" %} 
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	.table1{
+	padding: 30px 30px 30px 30px;
+    background: #fafafa;
+	}
+	th {
+    background: #3f0466;
+    color: #fff;
+}
+.table{
+border: 1px solid #c5c3c3;
+}
+td{
+font-size:12px;
+}
+th{
+font-size:12px;
+}
+.fa, .fas {
+    font-weight: 900;
+    font-size: 15px;
+}
+#navbar-submenu button:hover, button.active, button.focus {
+    border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+}
+.tab {
+  overflow: hidden;
+ background-color: #f0f0f0;
+ margin-bottom: 30px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 50px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ font-size: 13px;
+
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ border-bottom: 2px solid #3f0466;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+ border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+.main-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+	
+	.active-tab{
+		border-bottom: 3px solid #3f0466;
+    font-weight: bold;
+	}
+</style>
+
+<div class="right_col" role="main" style="min-height: 217px;">
+			<div id="navbar-animmenu">
+					<ul class="show-dropdown main-navbar">
+					<div class="hori-selector" style="left: 0px; width: 139.406px;"><div class="left"></div><div class="right"></div></div>
+						<li class="active" onclick="openevent('viewevent')">
+							<a href="#"><i class="fas fa-file"></i>View Event</a>
+						</li>
+						<li class="" onclick="openevent('addevent')">
+							<a href="#"><i class="fas fa-plus"></i>Add Event</a>
+						</li>
+					
+					</ul>
+			</div>
+			
+		
+			
+			
+			<section id="viewevent" class="event">
+				<div class="row">
+				<div class="col-md-12" style="padding: 15px 20px 0px 20px;">
+				<div class="table1">
+					  <div class="header_wrap">
+						<div class="num_rows">
+							<div class="form-group">
+								<select class="form-control" name="state" id="maxRows">
+									<option value="10">10</option>
+									<option value="15">15</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+									<option value="70">70</option>
+									<option value="100">100</option>
+									<option value="5000">Show ALL Rows</option>
+								</select>
+							</div>
+						</div>
+						<div class="tb_search">
+							<input type="text" id="search_input_all" onkeyup="FilterkeyWord_all_table()" placeholder="Search.."
+								class="form-control">
+						</div>
+					</div>
+					
+					  <table class="table table-striped table-class" id="table-id">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Registration Date</th>
+									<th>Fee</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Theme</td>
+									<td>Date</td>
+									<td>$12.00</td>
+									<td>Active</td>
+									<td><span><i class="fas fa-image"></i></span> <span><i class="fas fa-edit"></i></span> <span><i class="fas fa-times"></i></span></td>
+								</tr>
+								</tbody>
+								</table>
+								 <div class="pagination-container">
+            <nav>
+                <ul class="pagination">
+                    <li data-page="1" class="active"> <span>1<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="2"> <span>2<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="3"> <span>3<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="4"> <span>4<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="5"> <span>5<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="6"> <span>6<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="7"> <span>7<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="8"> <span>8<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="9"> <span>9<span class="sr-only">(current)</span></span> </li>
+                    <li data-page="10"> <span>10<span class="sr-only">(current)</span></span> </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="rows_count">Showing 1 to 10 of 100 entries</div>
+			</div>
+		</div>
+	</div>
+</section>
+		
+
+
+
+		<section id="addevent" class="event" style="display:none">
+				
+			<div id="navbar-submenu" class="tab-section">
+                <button  onclick="opendetails('detail')" name = "detail" class="active-tab">Details</button>
+                <button onclick="opendetails('images')" name="images">Images</button>
+                <button onclick="opendetails('video')" name="video">Videos</button>
+                <button onclick="opendetails('refform')" name="refform">Reg.Form</button>
+                <button onclick="opendetails('judges')" name="judges">Judges</button>
+                <button onclick="opendetails('contenstants')" name="contenstants">Contestants</button>
+                <button onclick="opendetails('score')" name="score">Score</button>
+				<button onclick="opendetails('result')" name="result">Result</button>
+				<button onclick="opendetails('Comments')" name="Comments">Comments</button>
+				<button onclick="opendetails('RFP')" name="RFP">RFP</button>
+			 </div>
+			
+			
+			<section id="detail" class="details">
+				<div class="row">
+					<div class="row" style="margin: 0px;">
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+						<h4>Event Info</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Title:<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id = "title" placeholder="">
+                                    <span class="focus-input100"></span>
+                             
+								<center><span style="display:none; color:red; " id ="err_title" >Enter Title</span></center>
+								</div> 
+								
+                                <div class="wrap-input100 validate-input" data-validate = "Message is required">
+                                    <span class="label-input100">Description:<span style="color:red">*</span></span>
+                                    <textarea class="input100" placeholder="" style="outline-style: none;" id  = "description"></textarea>
+                                    <span class="focus-input100"></span>
+                                
+								<center><span style="display:none; color:red; " id ="err_description" >Enter Description</span></center>
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Theme:<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id  = "theme" placeholder="">
+                                    <span class="focus-input100"></span>
+                                
+								<center><span style="display:none; color:red; " id ="err_theme" >Enter Theme</span></center>
+								</div>
+							
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Talent:<span style="color:red">*</span></span>
+                                    <input class="input100" id= "talent" type="text" name="phone" placeholder="">
+                                    <span class="focus-input100"></span>
+                               
+								<center><span style="display:none; color:red; " id ="err_talent" >Enter Talent</span></center>
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Display:<span style="color:red">*</span></span>
+                                    <select class="form-control alterationTypeSelect" id  = "display" >
+                                        <option selected hidden disabled>Select One</option>
+                                        <option value="show_event">Show Event</option>
+                                        <option value="hide_event">Hide Event</option>
+
+                                        </select>
+                                    <span class="focus-input100"></span>
+								</div>
+								<center><span style="display:none; color:red; " id ="err_display" >Enter Talent</span></center>
+								
+								
+                            </form>
+                        </div>
+                    </div>
+					 <div class="container-contact100">
+                        <div class="wrap-contact100">
+                <div class="heading">
+						<h4>Contestent Registration</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                                
+								
+								<div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Fee :<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id = "fee" placeholder="">
+                                    <span class="focus-input100"></span>
+                                
+								<center><span style="display:none; color:red; " id ="err_fee" >Enter Fee</span></center>
+								</div>
+								
+								
+                                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Reg.Start :<span style="color:red">*</span></span>
+                                    <input class="input100" type="date" id = "reg_start_date" placeholder="">
+                                    <span class="focus-input100"></span>
+								</div>
+								<center><span style="display:none; color:red; " id ="err_start" >Enter Reg.Start Date</span></center>
+								 
+								
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Reg.End :<span style="color:red">*</span></span>
+                                    <input class="input100" type="date" id = "reg_end_date" placeholder="">
+                                    <span class="focus-input100"></span>
+								</div>
+								<center><span style="display:none; color:red; " id ="err_end" >Enter Reg.End Date</span></center>
+							    
+							
+							</form>
+                        </div>
+                    </div>
+					  </div>
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        <div class="wrap-contact100">
+                <div class="heading">
+						<h4>Venue Info</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                                
+								<div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Address Line 1:<span style="color:red">*</span></span>
+                                    <input class="input100" id = "address_1" type="text" placeholder="">
+                                    <span class="focus-input100"></span>
+                              
+								<center><span style="display:none; color:red; " id ="err_address_1" >Enter Address</span></center>
+								</div>
+								
+								
+                                <div class="wrap-input100 validate-input" >
+                                    <span class="label-input100">Address Line 2:</span>
+                                    <input class="input100" id ="address_2" type="text" placeholder="">
+                                    <span class="focus-input100"></span>
+                                </div>
+								
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">City:<span style="color:red">*</span></span>
+                                    <input class="input100" id = "city" type="text" placeholder="">
+                                    <span class="focus-input100"></span>
+                              
+								<center><span style="display:none; color:red; " id ="err_city" >Enter City</span></center>
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">State:<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id = "state"  placeholder="">
+                                    <span class="focus-input100"></span>
+                               
+								<center><span style="display:none; color:red; " id ="err_state" >Enter State</span></center>
+								</div>
+								
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Country:<span style="color:red">*</span></span>
+                                    <select class="form-control alterationTypeSelect" id="country" >
+                                        <option selected hidden disabled>Select</option>
+                                        {% for i in country_obj %}
+										
+										<option value="{{i.id}}">{{i.country_name}}</option>
+                                        
+										{% endfor %}
+                                        </select>
+                                    <span class="focus-input100"></span>
+								</div>
+								<center><span style="display:none; color:red; " id ="err_country" >Select Country</span></center>
+								
+
+                                <div class="wrap-input100 validate-input" data-validate="Name is required">
+                                    <span class="label-input100">Zipcode:<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id = "zipcode" placeholder=""  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></>
+                                    <span class="focus-input100" ></span>
+                              
+								<center><span style="display:none; color:red; " id ="err_zipcode" >Enter Zipcode</span></center>
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Email:<span style="color:red">*</span></span>
+                                    <input class="input100" type="text" id = "email" placeholder="">
+                                    <span class="focus-input100"></span>
+                              
+								<center><span style="display:none; color:red; " id ="err_email" >Enter Email</span></center>
+								<center><span style="display:none;color:red;"  id="valid_email_error">Enter Valid Email Address</span></center>
+								
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Mobile No :<span style="color:red">*</span></span>
+                                    <input class="input100"  maxlength="10" id = "mobile_no" type="text" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                                    <span class="focus-input100"></span>
+                               
+								<center><span style="display:none; color:red; " id ="err_mobile_no" >Enter Mobile No</span></center>
+								</div>
+								
+                                <div class="wrap-input100 validate-input" data-validate="Phone is required">
+                                    <span class="label-input100">Phone No.:</span>
+                                    <input class="input100" type="text"  maxlength="10" id= "phone"  name="phone" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <span class="focus-input100"></span>
+                                </div>
+                
+                            </form>
+                        </div>
+                    </div>
+					 <div class="container-contact100">
+                        <div class="wrap-contact100">
+							<div class="heading">
+							<h4>Level, Venue & Prize Info</h4>
+							</div>
+							<hr>
+							<form role="form" action="/wohoo" class="contact100-form validate-form" method="POST">
+								<div class="multi-field-wrapper">
+								  <div class="multi-fields">
+									<div class="multi-field">
+									 <div class="wrap-input100 validate-input" data-validate="Phone is required">
+										<span class="label-input100">Level 1:</span>
+										<input class="input100" type="text" id= "phone"  name="phone" placeholder="Enter level title" >
+										<span class="focus-input100"></span>
+									</div>
+									<button type="button" class="remove-field">Remove</button>
+									</div>
+								  </div>
+								<button type="button" class="add-field">Add field</button>
+							  </div>
+							</form>
+						</div>
+					</div>
+                </div>
+		
+				
+				<div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="container-contact100">
+                        
+              <div class="row">
+				<div class="col-md-6">
+                         <div class="btn-box">
+								<a onclick="save()" class="theme-btn btn-style-one"><span class="btn-title">Save</span></a>
+						</div>
+						</div>
+						
+						 <div class="col-md-6">
+                         <div class="btn-box">
+								<a href="" class="theme-btn btn-style-one" style="background: #3f0466;"><span class="btn-title">Cancel</span></a>
+						</div>
+						</div>
+						
+						</div>
+                    
+                    </div>
+                </div>	
+				
+            </div>
+				</div>
+				</section>
+				
+		<section id="images" class="details" style="display:none">
+		<div class="row">
+		<div class="col-md-6 col-xs-12 col-sm-12">
+				<div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+						<h4>Add Images</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                               <div class="wrap-input100 validate-input" data-validate="Image Type is required">
+                                    <span class="label-input100">Image Type:</span>
+                                    <select class="form-control alterationTypeSelect" name="alterationTypeSelect">
+                                        <option value="Related Image">Related Image</option>
+                                        <option value="Default">Default</option>
+                                         </select>
+                                    <span class="focus-input100"></span>
+                                </div>
+
+                         
+									
+                                <div class="wrap-input100-file validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Image:</span>
+                                    <input class="input100" type="file" name="image" placeholder="">
+                                        <span class="focus-input100"></span>
+                                </div>
+                
+                             
+								<div class="wrap-input100-file validate-input">
+                                    <span class="label-input100">Note : Upload jpg,png,gif only.</span>
+									</div>
+									<div class="col-md-12">
+									  <div class="btn-box">
+											<a href="" class="theme-btn btn-style-one"><span class="btn-title">Upload Image</span></a>
+									</div>	
+									</div>	
+                            </form>
+                        </div>
+                    </div>
+		</div>
+		<div class="col-md-6 col-xs-12 col-sm-12">
+			<div class="container-contact100">
+                     <div class="wrap-contact100">
+						<div class="heading">
+						<h4> Gallery</h4>
+						</div>
+						<hr>
+							
+						</div>
+					</div>
+			</div>
+		</div>
+		</section>	
+
+		<section  id="video" class="details" style="display:none">
+		<div class="row">
+		<div class="col-md-6 col-xs-12 col-sm-12">
+				<div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+						<h4>Add Video</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                               <div class="wrap-input100 validate-input" data-validate="Image Type is required">
+                                    <span class="label-input100">Select Type:</span>
+                                    <select class="form-control alterationTypeSelect" name="alterationTypeSelect">
+                                        <option value="Related Image">Related Image</option>
+                                        <option value="Default">Default</option>
+                                         </select>
+                                    <span class="focus-input100"></span>
+                                </div>
+
+                         
+									
+                                <div class="wrap-input100-file validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                                    <span class="label-input100">Video:</span>
+                                    <input class="input100" type="file" name="image" placeholder="">
+                                        <span class="focus-input100"></span>
+                                </div>
+                
+                             
+								<div class="wrap-input100-file validate-input">
+                                    <span class="label-input100">Note : Upload mp4,avi,flv,mov,mkv and max size 20MB.</span>
+									</div>
+									<div class="col-md-12">
+									  <div class="btn-box">
+											<a href="" class="theme-btn btn-style-one"><span class="btn-title">Upload Video</span></a>
+									</div>	
+									</div>	
+                            </form>
+                        </div>
+                    </div>
+		</div>
+		<div class="col-md-6 col-xs-12 col-sm-12">
+			<div class="container-contact100">
+                     <div class="wrap-contact100">
+						<div class="heading">
+						<h4> Gallery Video</h4>
+						</div>
+						<hr>
+							
+						</div>
+					</div>
+			</div>
+		</div>
+		</section>	
+		
+		
+			<section  id="refform" class="details" style="display:none">
+		<div class="row">
+		<div class="col-md-12 col-xs-12 col-sm-12">
+				<div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+						<h4>Registration Form</h4>
+						</div>
+						<hr>
+						
+					<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+						<div class="tab">
+						  <button class="tablinks" onclick="openCity(event, 'Personalinfo')" id="defaultOpen">Personal Info</button>
+						  <button class="tablinks" onclick="openCity(event, 'Work Experience')">Work Experience</button>
+						</div>
+					</div>
+				
+					<div class="col-md-12">
+						<div id="Personalinfo" class="tabcontent">
+							<table class="table table-bordered">
+								<thead>
+									<th>Sr.No</th>
+									<th>Field Title</th>
+									<th>Field Type</th>
+									<th>Value (use , to seprate values)</th>
+									<th>Mandatory</th>
+									<th>Show</th>
+									<th>Judge Form</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1.</td>
+										<td>
+											<div class="wrap-input100 validate-input"> 
+												<input class="input100" type="text" name="phone" placeholder="First Name">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td>
+											 <div class="wrap-input100 validate-input">
+												<input class="input100" type="text" name="phone" placeholder="Text Field">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td>
+										<div class="wrap-input100 validate-input">
+												<input class="input100" type="text" name="phone">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td><input type="checkbox"></td>
+										<td><input type="checkbox"></td>
+										<td><input type="checkbox"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div id="Work Experience" class="tabcontent">
+						<table class="table table-bordered">
+								<thead>
+									<th>Sr.No</th>
+									<th>Field Title</th>
+									<th>Field Type</th>
+									<th>Value (use , to seprate values)</th>
+									<th>Mandatory</th>
+									<th>Show</th>
+									<th>Judge Form</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1.</td>
+										<td>
+											<div class="wrap-input100 validate-input"> 
+												<input class="input100" type="text" name="phone" placeholder="First Name">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td>
+											 <div class="wrap-input100 validate-input">
+												<input class="input100" type="text" name="phone" placeholder="Text Field">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td>
+										<div class="wrap-input100 validate-input">
+												<input class="input100" type="text" name="phone">
+												<span class="focus-input100"></span>
+											</div>
+										</td>
+										<td><input type="checkbox"></td>
+										<td><input type="checkbox"></td>
+										<td><input type="checkbox"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>	
+					</div>				
+				</div>
+				</div>
+				</div>
+			</div>	
+		</section>	
+		<section id="judges" class="details" style="display:none">
+		<div class="row">
+		<div class="col-md-6 col-xs-12 col-sm-12 col-md-offset-3">
+				<div class="container-contact100">
+                        <div class="wrap-contact100">
+						<div class="heading">
+						<h4>Selection Rule</h4>
+						</div>
+						<hr>
+                            <form class="contact100-form validate-form">
+                               <div class="wrap-input100 validate-input" data-validate="Image Type is required">
+                                    <span class="label-input100">Category:</span>
+                                    <select class="form-control alterationTypeSelect" name="alterationTypeSelect">
+                                        <option value="Dance">Dance</option>
+                                        <option value="Dance">Dance</option>
+                                         </select>
+                                    <span class="focus-input100"></span>
+                                </div>
+
+                          <div class="wrap-input100 validate-input" data-validate="Image Type is required">
+                                    <span class="label-input100">Judges Type:</span>
+                                    <select class="form-control alterationTypeSelect" name="alterationTypeSelect">
+                                        <option value="All Uncertified & Certified">All Uncertified & Certified</option>
+                                        <option value="All Uncertified & Certified">All Uncertified & Certified</option>
+                                    </select>
+                                    <span class="focus-input100"></span>
+                                </div>
+									
+                                
+                    <div class="wrap-input100-file validate-input">
+                                    <span class="label-input100">International Judges:</span>
+                                 <div style="margin-left: 10px;margin-top: 5px;">
+                                   <input type="checkbox">
+								    </div>
+                                </div>
+									
+                             
+							
+									<div class="col-md-12">
+									  <div class="btn-box">
+											<a href="" class="theme-btn btn-style-one"><span class="btn-title">Get Judges List</span></a>
+									</div>	
+									</div>	
+                            </form>
+                        </div>
+                    </div>
+		</div>
+		<div class="col-md-12 col-xs-12 col-sm-12">
+			<div class="container-contact100">
+                     <div class="wrap-contact100">
+						<div class="heading">
+						<h4> Judges  List</h4>
+						</div>
+						<hr>
+							<table class="table table-bordered">
+								<thead>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Conatct No.</th>
+									<th>Certified</th>
+									<th>Category</th>
+									<th>Scrolling Rules</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+			</div>
+		</div>
+		</section>	
+	</section>
+	</div>
+
+<script>
+function opendetails(detailsName) {
+  var i;
+  var x = document.getElementsByClassName("details");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(detailsName).style.display = "block"; 
+
+	$(".tab-section > button").removeClass("active-tab");
+	$("[name="+detailsName+"]").addClass("active-tab");
+}
+
+function openevent(eventName) {
+  var i;
+  var x = document.getElementsByClassName("event");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(eventName).style.display = "block";  
+}
+
+
+	function openCity(evt, cityName) {
+						  var i, tabcontent, tablinks;
+						  tabcontent = document.getElementsByClassName("tabcontent");
+						  for (i = 0; i < tabcontent.length; i++) {
+							tabcontent[i].style.display = "none";
+						  }
+						  tablinks = document.getElementsByClassName("tablinks");
+						  for (i = 0; i < tablinks.length; i++) {
+							tablinks[i].className = tablinks[i].className.replace(" active", "");
+						  }
+						  document.getElementById(cityName).style.display = "block";
+						  evt.currentTarget.className += " active";
+						}
+
+						// Get the element with id="defaultOpen" and click on it
+						document.getElementById("defaultOpen").click();
+						
+function setActive() {
+  aObj = document.getElementById('nav').getElementsByTagName('a');
+  for(i=0;i<aObj.length;i++) { 
+    if(document.location.href.indexOf(aObj[i].href)>=0) {
+      aObj[i].className='active';
+    }
+  }
+}
+
+var emailfilter = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+
+function save(){
+
+var title = $('#title').val();
+var description = $('#description').val();
+var theme = $('#theme').val();
+var talent = $('#talent').val();
+var display = $('#display').val();
+
+var address_1 = $('#address_1').val();
+var address_2 = $('#address_2').val();
+var city = $('#city').val();
+var state = $('#state').val();
+var country = $('#country').val();
+var zipcode = $('#zipcode').val();
+var email = $('#email').val();
+var mobile_no = $('#mobile_no').val();
+var phone = $('#phone').val();
+
+var fee = $('#fee').val();
+var reg_start_date = $('#reg_start_date').val();
+var reg_end_date = $('#reg_end_date').val();
+
+
+if (title == ""){
+$('#title').focus()
+$('#err_title').show()
+}
+
+else if(description == ""){
+$('#description').focus()
+$('#err_description').show()
+}
+
+else if(theme == ""){
+$('#theme').focus()
+$('#err_theme').show()}
+
+else if(talent == ""){
+$('#talent').focus()
+$('#err_talent').show()}
+
+else if(display == null ){
+$('#display').focus()
+$('#err_display').show()}
+
+else if(address_1 == ""){
+$('#address_1').focus()
+$('#err_address_1').show()}
+
+else if(city == ""){
+$('#city').focus()
+$('#err_city').show()}
+
+else if(state == ""){
+$('#state').focus()
+$('#err_state').show()}
+
+else if(country == null){
+$('#country').focus()
+$('#err_country').show()}
+
+else if(zipcode == ""){
+$('#zipcode').focus()
+$('#err_zipcode').show()}
+
+else if(email == ""){
+$('#email').focus()
+$('#err_email').show()}
+
+else if(! emailfilter.test(email)){
+$("#valid_email_error").show();
+$('#email').focus()
+}
+
+else if(mobile_no == ""){
+$('#mobile_no').focus()
+$('#err_mobile_no').show()}
+
+else if(fee == ""){
+$('#fee').focus()
+$('#err_fee').show()}
+
+else if(reg_start_date == ""){
+$('#reg_start_date').focus()
+$('#err_start').show()}
+
+else if(reg_end_date == ""){
+$('#reg_end_date').focus()
+$('#err_end').show()}
+
+else{	
+	$.ajax({	
+	method:'POST',
+	url:'/save_event_data/',
+	data:{
+		'title': title,
+		'description': description,
+		'theme': theme,
+		'talent': talent,
+		'display': display,
+		'address_1': address_1,
+		'address_2': address_2,
+		'city': city,
+		'state': state,
+		'country':country,	
+		'zipcode':zipcode,	
+		'mobile_no':mobile_no,	
+		'email':email,	
+		'phone':phone,	
+		'fee':fee,	
+		'reg_start_date':reg_start_date,	
+		'reg_end_date':reg_end_date,	
+		},
+	success:function(response){
+	console.log(response)
+	if (response == "success"){
+	
+		swal("Details Saved Successfully!", {
+			icon: "success",
+			button: "Ok",
+			closeOnClickOutside: false,
+		}).then(function() {
+			location.href = "/event_page/";
+		});
+	
+		}
+	else{
+	
+		swal({
+			title: "Email id Already Exists",
+			icon: "warning",
+			button: "Ok",
+			closeOnClickOutside: false,
+			}).then(function() {
+			$("#email").focus();
+			});	
+	
+		}	
+	}
+
+})
+
+}
+}
+
+
+$("#title").keyup(function(){
+$('#err_title').hide();
+})
+
+$("#description").keyup(function(){
+$('#err_description').hide();
+})
+
+$("#theme").keyup(function(){
+$('#err_theme').hide();
+})
+
+$("#talent").keyup(function(){
+$('#err_talent').hide();
+})
+
+
+$("#address_1").keyup(function(){
+$('#err_address_1').hide();
+})
+
+$("#city").keyup(function(){
+$('#err_city').hide();
+})
+
+$("#state").keyup(function(){
+$('#err_state').hide();
+})
+
+
+$("#zipcode").keyup(function(){
+$('#err_zipcode').hide();
+})
+
+$("#mobile_no").keyup(function(){
+$('#err_mobile_no').hide();
+})
+
+$("#email").keyup(function(){
+$('#valid_email_error').hide();
+$('#err_email').hide();
+})
+
+$("#fee").keyup(function(){
+$('#err_fee').hide();
+})
+
+<!-- $("#reg_start_date").keyup(function(){ -->
+<!-- $('#err_start').hide(); -->
+<!-- }) -->
+
+<!-- $("#reg_end_date").keyup(function(){ -->
+<!-- $('#err_end').hide() -->
+<!-- }) -->
+
+$('#reg_start_date').change(function(){
+	$('#err_start').hide()
+})
+
+$('#reg_end_date').change(function(){
+	$('#err_end').hide()
+})
+
+
+$('#display').change(function(){
+	$('#err_display').hide()
+})
+
+$('#country').change(function(){
+	$('#err_country').hide()
+})
+
+
+<!-- $("#title").val(''); -->
+<!-- $("#description").val(''); -->
+<!-- $("#theme").val(''); -->
+<!-- $("#talent").val(''); -->
+<!-- $("#display").val(''); -->
+<!-- $("#address_1").val(''); -->
+<!-- $("#address_2").val(''); -->
+<!-- $("#city").val(''); -->
+<!-- $("#state").val('');  -->
+<!-- $("#country").val('');  -->
+<!-- $("#zipcode").val('');  -->
+<!-- $("#mobile_no").val('');  -->
+<!-- $("#email").val('');  -->
+<!-- $("#phone").val('');  -->
+<!-- $("#fee").val('');  -->
+<!-- $("#reg_start_date").val('');  -->
+<!-- $("#reg_end_date").val('');  -->
+
+
+$('.multi-field-wrapper').each(function() {
+    var $wrapper = $('.multi-fields', this);
+    $(".add-field", $(this)).click(function(e) {
+        $('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+    });
+    $('.multi-field .remove-field', $wrapper).click(function() {
+        if ($('.multi-field', $wrapper).length > 1)
+            $(this).parent('.multi-field').remove();
+    });
+});
+
+</script>
+
+
+{% include "AdminPanel/footer.html" %}
+{% endblock %}

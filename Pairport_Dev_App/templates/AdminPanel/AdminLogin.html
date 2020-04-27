@@ -1,0 +1,196 @@
+{% load static %}
+<html lang="en"><head>
+<meta charset="UTF-8">
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+<title>ExcellENT- The daily question app</title>
+<script src="https://kit.fontawesome.com/e2ac9cc532.js" crossorigin="anonymous"></script><link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+background: #f1f2f6;
+font-family: sans-serif;
+}
+
+#sign-up {
+position: relative;
+width: 1100px;
+height: 500px;
+overflow: hidden;
+margin: 50px auto;
+background: white;
+box-shadow: 0px 0px 30px 20px rgba(0, 0, 0, 0.12);
+}
+#sign-up h1, #sign-up h2 {
+margin: 36px 0;
+width: 365.5px;
+text-align: center;
+font-weight: normal;
+color: #ff6b81;
+}
+#sign-up h1 i {
+height: 75px;
+width: 75px;
+line-height: 75px;
+border: 2px solid red;
+border-radius: 50%;
+}
+#sign-up h2 {
+color: #a4b0be;
+}
+#sign-up div {
+width: 365.5px;
+}
+#sign-up fieldset {
+border: none;
+margin: 0 50px;
+padding: 10px 20px;
+}
+#sign-up .top {
+border-top: 1px solid #a4b0be;
+}
+#sign-up label, #sign-up input {
+display: inline-block;
+height: 50px;
+line-height: 50px;
+border: none;
+}
+#sign-up label {
+width: 15%;
+text-align: center;
+color: #ff6b81;
+}
+#sign-up label i {
+font-size: 18px;
+}
+#sign-up input {
+width: 85%;
+outline: none;
+padding-left: 20px;
+color: #2f3542;
+font-size: 16px;
+}
+#sign-up button {
+display: block;
+height: 40px;
+border: 0;
+width: 230px;
+border-radius: 75px;
+margin: 20px auto;
+background: #ff6b81;
+color: white;
+outline: none;
+}
+#sign-up img {
+position: absolute;
+top: 0;
+right: 0;
+height: 500px;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+window.console = window.console || function(t) {};
+</script>
+<script>
+if (document.location.search.match(/type=embed/gi)) {
+window.parent.postMessage("resize", "*");
+}
+</script>
+</head>
+<body translate="no">
+	<div id="sign-up">
+		<h1>
+		<i class="fas fa-user-alt" aria-hidden="true"></i>
+		</h1>
+		<h2 style="color: #ff6b81;">
+			ExcellENT- The daily question app
+		</h2>
+		<div>
+		<fieldset>
+			<label><i class="fas fa-user" aria-hidden="true"></i></label><input type="text"  Placeholder="Username" id="email">
+			<center style="margin-top: -2%;"><span style="display:none;color:red;font-size: 14px;" id ="email_error">Please Enter Valid Username</span></center>
+		</fieldset>
+		<fieldset class="top">
+			<label><i class="fas fa-lock" aria-hidden="true"></i></label><input type="password"  Placeholder="Password" id="password">
+			<center style="margin-top: -2%;"><span style="display:none;color:red;font-size: 14px;" id ="error_password">Please Enter Valid Password</span></center>
+		</fieldset>
+		<button type="button" style="cursor: pointer;"  id="button_submit" onclick="Login()">LOGIN</button>
+		<center style="margin-top: -2%;"><span style="display:none;color:red;font-size: 14px;" id ="error_admin">Invalid Credentials...!</span></center>
+		</div>
+		<!-- <img src="https://images.unsplash.com/photo-1493934558415-9d19f0b2b4d2?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&amp;ixid=eyJhcHBfaWQiOjE0NTg5fQ"> -->
+		<img src="{% static 'logo/admin_login.jpeg' %}">
+	</div>
+
+
+</body>
+
+<script>
+$(document).ready(function(){
+	$(document).bind('keypress', function(e) {
+            if(e.keyCode==13){
+                 $('#button_submit').trigger('click');
+             }
+        });
+})
+
+$('#email').keyup(function(){
+	$('#email_error').hide();
+})
+$('#password').keyup(function(){
+	$('#error_password').hide();
+})
+$('#email').keyup(function(){
+	$('#error_admin').hide();
+})
+$('#password').keyup(function(){
+	$('#error_admin').hide();
+})
+
+var emailfilter = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+
+function Login(){
+  var email = $("#email").val();
+  var password = $("#password").val();
+	if (email == ""){
+		$('#email_error').show();
+	}
+	<!-- else if(! emailfilter.test(email)){ -->
+		<!-- $("#email_error").show(); -->
+	<!-- } -->
+	else if (password == ""){
+		$('#error_password').show();
+	}
+	else{
+		$.ajax({
+			method : "POST",
+			url : "/admin_login_check/",
+			data : {
+				'email':email,
+				'password':password,
+			},
+			success : function(loginobj){
+				console.log(loginobj)
+				if (loginobj == "errorAdmin"){
+					$('#error_admin').show();
+				}
+				else{
+					location.href = "/dashboard_page/";
+				}
+				
+			}
+		});
+	}
+}
+
+</script>
+
+
+</html>

@@ -1,0 +1,397 @@
+{% load static %}
+{% block navigation %}
+{% include "AdminPanel/header.html" %} 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+<!-- Table Links -->
+<!-- <script src="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script> -->
+
+<style>
+.heading{
+padding-left: 15px;
+    margin-top: 15px;
+	}
+	.table1{
+	padding: 30px 30px 30px 30px;
+    background: #fafafa;
+	}
+	th {
+    background: #337ab7;
+    color: #fff;
+}
+.table{
+border: 1px solid #c5c3c3;
+}
+td{
+font-size:12px;
+}
+th{
+font-size:12px;
+}
+.fa, .fas {
+    font-weight: 900;
+    font-size: 15px;
+}
+#navbar-submenu button:hover, button.active, button.focus {
+    border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+}
+.tab {
+  overflow: hidden;
+ background-color:#337ab7;
+ margin-bottom: 30px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 50px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+ font-size: 13px;
+
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+ border-bottom: 2px solid #3f0466;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+ border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+.main-tab{
+		border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+	}
+	
+	.active-tab{
+		border-bottom: 3px solid #337ab7;
+    font-weight: bold;
+	}
+	  .dataTable table tr {
+            border: solid 1px black;
+        }
+	<!--############33333 Laoding	 -->
+	#loading {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.7;
+   background-color: #fff;
+   z-index: 99;
+   text-align: center;
+}
+
+#loading-image {
+  position: absolute;
+  top: 27%;
+  left: 40%;
+  z-index: 100;
+}
+
+</style>
+ 
+<div id="loading">
+  <!-- <img id="loading-image" src = "{% static 'LLyJ.gif'%}" alt="Loading..." /> -->
+  <img id="loading-image" src = "{% static 'LLyJ.gif'%}" alt="Loading..." />
+</div>
+
+<div class="right_col" role="main" style="min-height: 217px;">
+			
+				<div id="navbar-animmenu" style="background-color:#337ab7">
+					<ul class="show-dropdown main-navbar">
+					<div class="hori-selector" style="left: 0px; width: 139.406px;"><div class="left"></div><div class="right"></div></div>
+						<li class="active">
+							<a href="#"><i class="fas fa-file"></i>Airport List</a>
+						</li>
+				
+					</ul>
+				</div>
+			
+			
+			
+			<section >
+		<div class="row" class="details">	
+		   <div class="row" style="margin: 0px;">
+                    <div class="col-md-10 col-xs-12 col-sm-12" >
+                        <div class="container-contact100">
+                            <div class="wrap-contact100">
+							<div class="heading">
+                                <h4>Add Airport</h4>
+								</div>
+								<hr>
+                               
+								<div class="col-md-12 ">
+								<div class="col-md-3">
+				 <textarea class="input100"  placeholder="Country" id="country" style="outline-style: none;"></textarea>
+							 <span id="country_error" style="display:none;color:red;">Please Enter Country</span>
+							</div>
+								<div class="col-md-3">	
+								<textarea class="input100"  placeholder="City" id="city" style="outline-style: none;"></textarea>
+								<span id="city_error" style="display:none;color:red;">Please Enter City</span>
+
+								</div>
+								<div class="col-md-3">				
+								<textarea class="input100"  placeholder="Airport" id="airport" style="outline-style: none;"></textarea>
+								<span id="airport_error" style="display:none;color:red;">Please Enter Airport</span>
+
+								</div>
+								&nbsp;
+								<div class="col-md-3">				
+								<button type="button" class="btn btn-success"  onclick="save_airport()" style = "margin-top:0%;background-color:#337ab7">Add</button>	
+								</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+		</div>
+		</section>
+
+		
+		
+		
+		
+		
+		
+		
+			<section id="viewevent" class="event">
+				<div class="row">
+				<div class="col-md-12" style="padding: 15px 20px 0px 20px;">
+				<div class="table1">
+				<table id="example" class="display table-class" style="width:100%">
+		    <thead>
+		        <tr>
+					 <th>Sr. No</th>
+    		        <th>Contry </th>
+    		        <th>City</th>
+    		        <th>Airport </th>
+    		        <th>Action </th>
+		        </tr>
+		    </thead>
+		    <tbody>
+			{%for i in air_obj%}
+		        <tr>
+		            <td>{{forloop.counter}}</td><td>{{i.fk_country.country_name}}</td><td>{{i.city_name}}</td><td>{{i.airport_name}}</td>
+					<td> <span onclick="delete_airport('{{i.id}}')"><i class="fas fa-trash-alt"></i></span></td>
+	            </tr>
+				{% endfor %}
+	         
+		    </tbody>
+		</table>
+		</div>
+				
+	</div>
+	</div>
+	</div>
+</section>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<!-- <script> -->
+<!-- jQuery(document).ready(function() { -->
+    <!-- jQuery('#loading').fadeOut(3000); -->
+<!-- }); -->
+<!-- </script> -->
+
+
+
+<script>
+$("#loading").show()
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+$("#loading").hide()
+</script>
+	
+
+
+<script>
+<!-- $(document).ready(function() { -->
+    <!-- $('#example').DataTable( ); -->
+<!-- } ); -->
+
+
+$(document).ready(function() {
+    $('#test').DataTable();
+		
+		$(".tab-section > button").removeClass("active-tab");
+		$("#user_tab").addClass("active");
+		
+} );
+</script>
+
+<script>
+function opendetails(detailsName) {
+  var i;
+  var x = document.getElementsByClassName("details");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(detailsName).style.display = "block"; 
+
+	$(".tab-section > button").removeClass("active-tab");
+	$("[name="+detailsName+"]").addClass("active-tab");
+}
+
+function openevent(eventName) {
+  var i;
+  var x = document.getElementsByClassName("event");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(eventName).style.display = "block";  
+}
+
+
+function save_airport(){
+   
+   console.log("hi")
+   
+   var country = $("#country").val()
+   var city = $("#city").val()
+   var airport = $("#airport").val()
+  
+   
+	console.log(country)
+	console.log(airport)
+	
+	
+	
+	if (country == "")
+	{
+	$('#country_error').show()
+	}
+	
+	else if(city == "")
+	{
+	$('#city_error').show()
+	}
+	
+	else if(airport == "")
+	{
+	$('#airport_error').show()
+	}
+	
+	else{
+	$.ajax({
+			method : "POST",
+			url : "/save_airport_details/",
+			data : {
+					'country':country,
+					'city':city,
+					'airport':airport,
+					
+			},
+			success : function(response){
+				console.log(response)
+				$("#loading").hide()
+			 if(response == "Exists")
+			 <!-- { -->
+						<!-- $('#product_error').show(); -->
+				<!-- } -->
+				swal({
+				title: "Airport already Exist",
+				icon: "success",
+				button: "Ok",
+				closeOnClickOutside: false,
+			}) 
+				else if (response == "success")swal({
+				title: "Airport Added Successfully",
+				icon: "success",
+				button: "Ok",
+				closeOnClickOutside: false,
+			}).then(function() {
+				location.reload();
+			});	
+			}
+			
+		});
+	}
+}
+
+$("#country").keyup(function(){
+	$("#country_error").hide();
+});
+
+$("#city").keyup(function(){
+	$("#city_error").hide();
+});
+
+$("#airport").keyup(function(){
+	$("#airport_error").hide();
+});
+
+
+
+</script>
+<script>
+function delete_airport(id){
+	console.log("delete*********")
+	swal({
+		title: "Are you sure?",
+		text: "To Delete this Entry!",
+		icon: "warning",
+	
+		buttons: ["No", "Yes"],
+		closeOnClickOutside: false,
+		dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				$.ajax({
+					method : "POST",
+					url : "/delete_airport/",
+					data : {
+						'id':id,
+					},
+					success : function(response){
+						if (response == "success"){
+							swal("Aiport Deleted Successfully !", {
+								icon: "success",
+								button: "Ok",
+								closeOnClickOutside: false,
+								}).then(function() {
+									location.reload();
+								});
+				
+						}
+					}
+				});
+				}
+	});
+}
+</script>
+
+{% include "AdminPanel/footer.html" %}
+{% endblock %}
