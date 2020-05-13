@@ -1,4 +1,9 @@
 {% load static %}
+<script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+</script> 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -10,6 +15,11 @@
 <!-- Include the above in your HEAD tag -->
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+
+
+	
 <style>
 <!-- @charset "utf-8"; -->
 
@@ -260,6 +270,8 @@ body, html {
 </div>
 </body>
 
+
+	
 <script>
 $(document).ready(function(){
 	$(document).bind('keypress', function(e) {
@@ -341,3 +353,10 @@ $('#password').keyup(function(){
 
 
 </script>
+<!-- <script src = "http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+<!-- <script type="text/javascript"> -->
+        <!-- function preventBack() { window.history.forward(); } -->
+        <!-- setTimeout("preventBack()", 0); -->
+        <!-- window.onunload = function () { null }; -->
+<!-- </script>  -->

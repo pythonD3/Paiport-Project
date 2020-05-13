@@ -9,7 +9,7 @@ import traceback
 from django.core.mail import EmailMessage
 import requests
 from Pairport_Dev.settings import EMAIL_HOST_USER
-from datetime import date, datetime
+from datetime import date, datetime , timedelta
 import ast
 import base64
 import random
@@ -19,6 +19,8 @@ import sched, time
 import threading
 import os
 from twilio.rest import Client
+import datetime
+from datetime import date, datetime
 # from .Checksum import generate_checksum, verify_checksum,__id_generator__
 # import Checksum 
 import requests
@@ -137,7 +139,66 @@ def store_dial_code(request):
 
 
 
-
+	
+######################### Store Flag API
+@csrf_exempt
+def save_flag_web_api(request):
+	try:
+		URL = "https://www.worldometers.info/geography/flags-of-the-world/"
+		r = requests.get(URL)
+		soup =BeautifulSoup(r.content,"html.parser")
+		tb = soup.findAll('div', attrs={'class':'col-md-4'})
+		print("tb",tb)
+		for i in tb:
+			name= i.text
+			print("name",name)
+			image=i.find('img')
+			print("image",image)
+			if image:
+				imm = image.get('src')
+				
+				flag_imagess="https://www.worldometers.info"+imm
+				print("image",flag_imagess)
+			else:
+				pass
+			flagobj = Flags_Details(flag_country_name=name)
+			if flag_imagess:
+				# ima = url_to_image(flag_imagess)
+				# flag_images_name = upload_image(flag_imagesss,"Flag_Image/","Flag_Image_")
+				flagobj.flag = flag_imagess
+			else:
+				pass
+			flagobj.save()
+			send_data={'msg':"Save Successfully"}
+	except:
+		print(str(traceback.format_exc()))
+		send_data = {'status':"0", 'msg':"Something Went Wrong", 'error':str(traceback.format_exc())}
+		
+	return JsonResponse(send_data)
+	
+	
+############################## flag list api
+@csrf_exempt
+def flag_list_web(request):
+	try:
+		flag = Flags_Details.objects.all()
+		list=[]
+		dict={}
+		for i in flag:
+			dict['flag_id'] = str(i.id)
+			dict['country_name'] = str(i.flag_country_name)
+			dict['flag'] = str(i.flag)
+			list.append(dict)
+			dict = {}
+		send_data = {'status':"1", 'msg':"Flag list", 'flag_list':list}
+	except:
+		print(str(traceback.format_exc()))
+		send_data = {'status':"0", 'msg':"Something Went Wrong", 'error':str(traceback.format_exc())}
+		
+	return JsonResponse(send_data)
+	
+	################################## 	flight status
+	
 #################Upload Image Function
 @csrf_exempt
 def upload_image(img, img_path, img_name):
@@ -160,17 +221,19 @@ def user_signup_web(request):
 		dialcode_id = data['dialcode_id']
 		phone_no = data['phone_no']
 		name = data['name']
+		gender = data['gender']
+		age = data['age']
 		emal_id = data['email_id']
 		emal_id = emal_id.lower()
 		profile_image = data['profile_image']
 		if User_Details.objects.filter(fk_dialcode__id= dialcode_id,phone_no=phone_no).exists():
 			send_data ={'msg':"Mobile Number Already Exists",'status':"0"}
 		else:
-			user_obj = User_Details(name=name,emal_id = emal_id,fk_dialcode_id = dialcode_id,phone_no=phone_no)
+			user_obj = User_Details(name=name,emal_id = emal_id,fk_dialcode_id = dialcode_id,phone_no=phone_no,gender=gender,age=age)
 			user_obj.save()
 			if profile_image:
 				profile_name = upload_image(profile_image,"Profile_Image/","Profile_")
-				user_obj.user_profile = profile_name
+				user_obj.profile_image = profile_name
 				user_obj.save()
 			else:
 				pass
@@ -194,7 +257,7 @@ def login_api_web(request):
 			
 			send_data = {'msg':"Login Sucessfully",'status':"1","user_id": str(user_obj.id)}
 		else:	
-			send_data = {'msg':"Invalid Credentials", 'status':"0"}
+			send_data = {'msg':"Invalid Contact No.", 'status':"0"}
 			
 	except:
 		send_data = {'msg':"Something went wrong", 'error':str(traceback.format_exc())}
@@ -220,15 +283,21 @@ def get_profile_web(request):
 			dict['dial_code'] = str(obj.fk_dialcode.dial_code)
 		else:
 			dict['dial_code'] = ""
-		
+	
 		if obj.phone_no:
 			dict['phone_no'] = str(obj.phone_no)
 		else:
 			dict['phone_no'] = ""
+			
 		if obj.profile_image:
 			dict['profile_image'] = str(obj.profile_image)
 		else:
-			dict['profile_image'] = ""
+			dict['profile_image'] = ""	
+			
+		if obj.emal_id:
+			dict['email_id'] = str(obj.emal_id)
+		else:
+			dict['email_id'] = ""
 			
 		if obj.image_one:
 			dict['image_one'] = str(obj.image_one)
@@ -259,42 +328,76 @@ def get_profile_web(request):
 		else:
 			dict['job'] = ""
 			
+		if obj.age:
+			dict['age']  = str(obj.age)
+		else:
+			dict['age'] = ""
+		if obj.gender:
+			dict['gender'] = str(obj.gender)
+		else:
+			dict['gender'] = ""
+		if obj.education:
+			dict['education'] = str(obj.education)
+		else:
+			dict['education'] = ""
+		if obj.nationality:
+			dict['nationality'] = str(obj.nationality.flag_country_name)
+		else:
+			dict['nationality'] = ""
+			
+		if obj.nationality:
+			dict['flag'] = str(obj.nationality.flag)
+		else:
+			dict['flag'] = ""
+		if obj.activity:
+			dict['favourite_activity'] = str(obj.activity)
+		else:
+			dict['favourite_activity'] = ""
+		if obj.linkdin_link:
+			dict['linkdin_link'] = str(obj.linkdin_link)
+		else:
+			dict['linkdin_link'] = ""
+		if obj.lounge_access:
+			dict['lounge_access'] =str(obj.lounge_access)
+		else:
+			dict['lounge_access'] =""
+			
 		# if obj.travel_country:
 			# dict['travel_country'] = str(obj.travel_country)
 		# else:
 			# dict['travel_country'] =  ""
 			
 		if obj.insta_link:
-			dict['insta_link'] = str(obj.insta_link)
+			dict['linkedin_link'] = str(obj.insta_link)
 		else:
-			dict['insta_link'] =  ""
+			dict['linkedin_link'] =  ""
 			
-		if obj.fk_country:
-			dict['residence_country'] = str(obj.fk_country.country_name)
+		if obj.fk_residence:
+			dict['residence_country'] = str(obj.fk_residence.flag_country_name)
 		else:
 			dict['residence_country'] = ""
 			
-		if obj.selected_country_list:
-			ls=[]
-			li=[]
-			list=[]
-			new_list = json.loads(json.dumps(obj.selected_country_list))
-			new_list = ast.literal_eval(new_list)
-			for j in new_list:
-				print("jjj",j)
-				object=Country_Code_Master.objects.filter(id=j)
-				for m in object:
-					if m.country_name in list:
-						pass
-					else:
-						print('name...1')
-					list.append(m.country_name)
+		# if obj.selected_country_list:
+			# ls=[]
+			# li=[]
+			# list=[]
+			# new_list = json.loads(json.dumps(obj.selected_country_list))
+			# new_list = ast.literal_eval(new_list)
+			# for j in new_list:
+				# print("jjj",j)
+				# object=Country_Code_Master.objects.filter(id=j)
+				# for m in object:
+					# if m.country_name in list:
+						# pass
+					# else:
+						# print('name...1')
+					# list.append(m.country_name)
 					
-					print("service Name", )
-				dict['selected_service_list'] =list	
+					# print("service Name", )
+				# dict['selected_service_list'] =list	
 	
-		else:
-			dict['selected_countries_list'] = ""
+		# else:
+			# dict['selected_countries_list'] = ""
 		send_data = {'status':"1", 'msg':" User Profile", 'profile':dict}
 	except:
 		send_data = {'msg':"Something went wrong", 'error':str(traceback.format_exc())}
@@ -308,9 +411,15 @@ def update_profile_web(request):
 		data = json.loads(request.body.decode('utf-8'))
 		user_id = data['user_id']
 		name = data['name']
+		age = data['age']
+		email_id = data['email_id']
+		gender = data['gender']
 		moto = data['moto']
 		job = data['job']
 		residence_country_id = data['residence_country_id']
+		education = data['education']
+		nationality_id = data['nationality_id']
+		favourite_activity = data['favourite_activity']
 		profile_image = data['profile_image']
 		image_one = data['image_one']
 		image_two = data['image_two']
@@ -318,8 +427,10 @@ def update_profile_web(request):
 		image_four = data['image_four']
 		image_five = data['image_five']
 		insta_link = data['insta_link']
-		selected_countries_list = data['selected_countries_list']
-		print("selected_countries_list...............",selected_countries_list)
+		linkedin_link = data['linkedin_link']
+		lounge_access = data['lounge_access']
+		# selected_countries_list = data['selected_countries_list']
+		# print("selected_countries_list...............",selected_countries_list)
 		# for i in selected_countries_list:
 			# print("i.................",i)
 		if  User_Details.objects.filter(id=user_id).exists():
@@ -327,12 +438,18 @@ def update_profile_web(request):
 			user_obj.moto=moto
 			user_obj.name=name
 			user_obj.job=job
+			user_obj.emal_id=email_id
 			# user_obj.travel_country=travel_country
 			user_obj.insta_link=insta_link
-			user_obj.selected_country_list=selected_countries_list
-			user_obj.fk_country= Country_Code_Master.objects.get(id =residence_country_id)
-			
-			
+			user_obj.age=age
+			user_obj.gender=gender
+			user_obj.linkdin_link=linkedin_link
+			user_obj.lounge_access=lounge_access
+			user_obj.education=education
+			user_obj.activity=favourite_activity
+			# user_obj.selected_country_list=selected_countries_list
+			user_obj.fk_residence=Flags_Details.objects.get(id =residence_country_id)
+			user_obj.nationality= Flags_Details.objects.get(id =nationality_id)
 			
 			if profile_image:
 				profile_name = upload_image(profile_image,"Profile_Image/","Profile_")
@@ -388,9 +505,10 @@ def update_profile_web(request):
 def send_otp(send_to,body):
 	try:
 		account_sid = 'AC87f23320f2d83e8d660986c361dc6d91' 
-		auth_token = '2e8213e65c52c4ef65b33e8b388dfb01'
+		auth_token = 'e623e1f47d65fcf91d65f2ea17bff5ef'
 		client = Client(account_sid, auth_token)
 		message = client.messages.create(from_= '+19893734917', body = body, to = send_to) 
+		# message = client.messages.create(from_='+19893734917',body="Your Pairport verification code is:",to=send_to )
 		print(message.sid)
 		return message.sid
 	except Exception as e:
@@ -408,17 +526,16 @@ def user_request_otp_signup_web(request):
 		phone_no = data['phone_no']
 		print("dialcode_id..............",dialcode_id)
 		print("contact_no..............",phone_no)
-		if User_Details.objects.filter(fk_dialcode__id = dialcode_id, phone_no = phone_no).exists():
-			send_data = {'status':"0", 'msg':"Contact No. Already Exists"}	
-		else:
-			send_to = str(Country_Code_Master.objects.get(id = dialcode_id).dial_code)+str(phone_no)
-			otp = '{:04}'.format(random.randrange(1, 10**4))
-			print(otp)
-			otp_message = otp + " is your verification code for Pairport App."
-			print(otp_message)
-			res = send_otp(send_to,otp_message)
-			print(res)
-			send_data = {'status':"1", 'msg':"OTP Sent Successfully", 'otp':str(otp)}
+		
+		send_to = str(Country_Code_Master.objects.get(id = dialcode_id).dial_code)+str(phone_no)
+		otp = '{:04}'.format(random.randrange(1, 10**4))
+		print(otp)
+		otp_message = "Your Pairport verification code is:"+otp
+		print(otp_message)
+		res = send_otp(send_to,otp_message)
+		# res = send_otp(send_to)
+		print(res)
+		send_data = {'status':"1", 'msg':"OTP Sent Successfully", 'otp':str(otp)}
 		
 	except Exception as e:
 		print(str(traceback.format_exc()))
@@ -478,9 +595,13 @@ def add_trip_web(request):
 		date_layover =data['date_layover']
 		arrival_time =data['arrival_time']
 		layover_time =data['layover_time']
+		flight_number = data['flight_number']
+		print("date_layover",date_layover)
+		arrivl_date = datetime.strptime(date_layover, "%d/%m/%Y").strftime("%Y-%m-%d")
 		
+		print("arrivl_date",arrivl_date)
 		if User_Details.objects.filter(id= user_id).exists():
-			tri_obj = Trip_Details(fk_user_id = user_id,fk_airport=Airport_Details.objects.get(id=airport_id),date_layover=date_layover,arival_time=arrival_time,layover_time=layover_time)
+			tri_obj = Trip_Details(fk_user_id = user_id,fk_airport=Airport_Details.objects.get(id=airport_id),date_layover=arrivl_date,arival_time=arrival_time,lay_time=layover_time,flight_number=flight_number)
 			tri_obj.save()
 			send_data = {'status':"1",'msg':"Trip Added Successfully"}
 		else:
@@ -505,8 +626,13 @@ def trip_list_by_user_id_web(request):
 				obj = Trip_Details.objects.filter(fk_user_id=user_id).order_by('date_layover')
 				list = []
 				dict = {}
+				current_date = datetime.now().date()
+				curr_date =current_date.strftime("%Y/%m/%d")
+				
+				print("current_date............",curr_date)
 				for i in obj:
 					dict['trip_id'] = str(i.id)
+					
 					if i.fk_airport:
 						dict['airport_name'] = str(i.fk_airport.airport_name)
 					else:
@@ -520,17 +646,35 @@ def trip_list_by_user_id_web(request):
 					else:
 						dict['country_name'] = ""
 					if i.date_layover:
-						dict['date_layover'] = str(i.date_layover)
+						dt= i.date_layover.strftime("%d/%m/%Y")
+						dict['date_layover'] = str(dt)
 					else:
 						dict['date_layover'] = ""
+						
+					if i.date_layover:
+						date = i.date_layover.strftime("%Y/%m/%d")
+						print("_date............",date)
+						if curr_date <= date:
+							dict['current_date_data_available'] = "Yes"
+						else:	
+							dict['current_date_data_available'] = "No"
+					else:
+						dict['current_date_data_available'] = ""
 					if i.arival_time:
-						dict['arival_time'] = str(i.arival_time)
+						arr_time =i.arival_time.strftime("%I:%M %p")
+						dict['arival_time'] = str(arr_time)
 					else:
 						dict['arival_time'] = ""
-					if i.layover_time:
-						dict['layover_time'] = str(i.layover_time)
+						
+					if i.lay_time:
+						l_time=i.lay_time.strftime('%H:%M')
+						dict['layover_time'] = str(l_time)
 					else:
-						dict['layover_time'] = ""
+						dict['layover_time'] = ""		
+					if i.flight_number:
+						dict['flight_number'] = str(i.flight_number)
+					else:
+						dict['flight_number'] = ""
 					list.append(dict)
 					dict = {}
 					
@@ -558,18 +702,28 @@ def  search_traveller_web(request):
 				trip_obj = Trip_Details.objects.get(id= trip_id)
 				trip_airport_id = trip_obj.fk_airport.id
 				trip_date = trip_obj.date_layover
-				trip_time = trip_obj.arival_time
-				trip_layover_time = trip_obj.layover_time
-				print("trip_airport_name",trip_airport_id)
-				print("trip_date",trip_date)
-				print("trip_time",trip_time)
-				print("trip_layover_time",trip_layover_time)
-				if Trip_Details.objects.filter(fk_airport__id =trip_airport_id,date_layover=trip_date,arival_time=trip_time).exists():
-					all_trip_data = Trip_Details.objects.filter(fk_airport__id =trip_airport_id,date_layover=trip_date,arival_time=trip_time).exclude(fk_user_id=user_id).order_by('-date_layover')
+				
+				time_lay = trip_obj.lay_time.strftime('%H:%M:%S')
+				d1 = trip_obj.arival_time.strftime('%H:%M:%S')
+				print("time_lay---->",time_lay)
+				print("d1aa---->",d1)
+				dd = datetime.datetime.strptime(time_lay, "%H:%M:%S")
+				ddd = datetime.datetime.strptime(d1, "%H:%M:%S")
+				dt1 = datetime.timedelta(hours=dd.hour,minutes=dd.minute, seconds=dd.second, microseconds=dd.microsecond)
+				dt2 = datetime.timedelta(hours=ddd.hour,minutes=ddd.minute, seconds=ddd.second, microseconds=ddd.microsecond)
+				fin = dt1 + dt2
+				
+				print("dt1",dt1)
+				print("dt2",dt2)
+				print("fin---",fin)
+				if Trip_Details.objects.filter(fk_airport__id =trip_airport_id,date_layover=trip_date).exists():
+					
+					all_trip_data = Trip_Details.objects.filter(fk_airport__id =trip_airport_id,date_layover=trip_date).exclude(fk_user_id=user_id).order_by('-date_layover')
 					list = []
 					dict = {}
 					for i in all_trip_data:
 						dict['trip_id'] = str(i.id)
+						
 						if i.fk_user:
 							dict['user_name'] = str(i.fk_user.name)
 						else:
@@ -579,21 +733,55 @@ def  search_traveller_web(request):
 						else:
 							dict['profile_image'] = ""
 							
+						if i.fk_user:
+							dict['age'] = str(i.fk_user.age)
+						else:
+							dict['age'] = ""
+
+						if i.fk_user:
+							dict['gender'] = str(i.fk_user.gender)
+						else:
+							dict['gender'] = ""
+						if i.fk_user.nationality:
+							dict['nationality'] = str(i.fk_user.nationality.flag_country_name)
+						else:
+							dict['nationality'] = ""
+							
+						if i.fk_user.nationality:
+							dict['flag'] = str(i.fk_user.nationality.flag)
+						else:
+							dict['flag'] = ""
+
 						if i.fk_airport:
 							dict['airport_name'] = str(i.fk_airport.airport_name)
 						else:
 							dict['airport_name'] = ""
 						if i.date_layover:
-							dict['date_layover'] = str(i.date_layover)
+							dt= i.date_layover.strftime("%d/%m/%Y")
+							dict['date_layover'] = str(dt)
 						else:
 							dict['date_layover'] = ""
+						
 						if i.arival_time:
-							dict['arival_time'] = str(i.arival_time)
+							print("hii")
+							startss_time = i.arival_time.strftime('%H:%M:%S')
+							print("start_time",startss_time)
+							ddd = datetime.datetime.strptime(startss_time, "%H:%M:%S")
+							dt1 = datetime.timedelta(hours=ddd.hour,minutes=ddd.minute, seconds=ddd.second, microseconds=ddd.microsecond)
+							lays_time=fin -dt1
+							print("lay time",lays_time)
+							dict['matching_layover_time'] = str(lays_time)
 						else:
-							dict['arival_time'] = ""
+							dict['matching_layover_time'] = ""			
+							
+						if i.flight_number:
+							dict['flight_number'] = str(i.flight_number)
+						else:
+							dict['flight_number'] = ""
 							
 						list.append(dict)
 						dict = {}
+						
 					send_data = {'status':"1", 'msg':"Trip  Found",'trip':list}
 				else:
 					send_data = {'status':"0", 'msg':"Trip on this  date not Found"}
@@ -759,6 +947,29 @@ def get_chatting_message_web(request):
 		send_data = {'msg':"Something went wrong", 'error':str(traceback.format_exc())}
 		print(send_data)
 	return JsonResponse(send_data)
+	
+	
+###################################################### All Trip List
+
+# @csrf_exempt
+# def all_trip_list(request):
+	# try:
+		# data = json.loads(request.body.decode('utf-8'))
+		# user_id = data['user_id']
+		
+		# if User_Details.objects.filter(id=user_id).exists():
+		# obj= Trip_Details.objects.all()
+		# list = []
+		# dict = {}
+		# for i in obj:
+			# dict['']
+		# else:
+			# send_data = {'status':"0", 'msg':"User Not Found"}
+	# except:
+		# send_data = {'msg':"Something went wrong", 'error':str(traceback.format_exc())}
+		# print(send_data)
+	# return JsonResponse(send_data)
+	
 		################################################## Forget Password API
 @csrf_exempt
 def forget_password_web(request):

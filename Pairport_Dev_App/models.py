@@ -58,6 +58,16 @@ class Airport_Details(models.Model):
 		verbose_name="Airport_Details"
 		verbose_name_plural = "Airport_Details"
 
+		
+class Flags_Details(models.Model):
+	flag_country_name = models.CharField(max_length=200,null=True,blank=True)
+	flag_images =  models.ImageField(null = True, blank = True, upload_to = "Flag_Image/")
+	flag= models.CharField(max_length=1000,null=True,blank=True)
+
+	class Meta:
+		verbose_name = "Flags_Details"
+		verbose_name_plural = "Flags_Details"
+		
 class User_Details(models.Model):
 	fk_dialcode = models.ForeignKey(Country_Code_Master ,on_delete = models.CASCADE , null=True , blank = True)
 	name =  models.CharField(max_length=200,null=True,blank=True)
@@ -78,6 +88,14 @@ class User_Details(models.Model):
 	travel_country =  models.CharField(max_length=200,null=True,blank=True)
 	insta_link = models.CharField(max_length=200,null=True,blank=True)
 	selected_country_list = models.TextField(null=True , blank = True)
+	education= models.CharField(max_length=200,null=True,blank=True)
+	activity = models.CharField(max_length=200,null=True,blank=True)
+	lounge_access =  models.CharField(max_length=200,null=True,blank=True)
+	linkdin_link = models.CharField(max_length=200,null=True,blank=True)
+	age = models.CharField(max_length=200,null=True,blank=True)
+	gender = models.CharField(max_length=200,null=True,blank=True)
+	nationality = models.ForeignKey(Flags_Details,on_delete=models.CASCADE,null=True,blank=True)
+	fk_residence = models.ForeignKey(Flags_Details,related_name='country_name_flag',on_delete=models.CASCADE,null=True,blank=True)
 	
 	def __str__(self):
 		return self.name
@@ -87,14 +105,14 @@ class User_Details(models.Model):
 		verbose_name_plural = "User_Details"
 
 		
-		
-		
 class Trip_Details(models.Model):
 	fk_user = models.ForeignKey(User_Details , on_delete = models.CASCADE , null=True , blank = True)
 	fk_airport =  models.ForeignKey(Airport_Details , on_delete = models.CASCADE , null=True , blank = True)
 	date_layover = models.DateField(null=True, blank=True)
 	arival_time = models.TimeField(null=True,blank=True)
+	lay_time = models.TimeField(null=True,blank=True)
 	layover_time = models.CharField(max_length=100,null=True,blank=True)
+	flight_number = models.CharField(max_length=100,null=True,blank=True)
 	
 	class Meta:
 		verbose_name="Trip_Details"

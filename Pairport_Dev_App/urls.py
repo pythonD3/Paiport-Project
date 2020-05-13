@@ -32,6 +32,8 @@ urlpatterns = [
 	url(r'^search_traveller_web/$',search_traveller_web, name='search_traveller_web'),
 	url(r'^save_chatting_message_web/$',save_chatting_message_web, name='save_chatting_message_web'),
 	url(r'^get_chatting_message_web/$',get_chatting_message_web, name='get_chatting_message_web'),
+	url(r'^save_flag_web_api/$',save_flag_web_api, name='save_flag_web_api'),
+	url(r'^flag_list_web/$',flag_list_web, name='flag_list_web'),
 	
 	url(r'^forget_password_web/$',forget_password_web, name='forget_password_web'),
 ]

@@ -15,6 +15,11 @@ class Admin_class(admin.ModelAdmin):
 	list_display = ('id','username')
 admin.site.register(Admin , Admin_class)
 
+
+class Flags_Details_class(admin.ModelAdmin):
+	list_display = ('id','flag_country_name')
+admin.site.register(Flags_Details , Flags_Details_class)
+
 class Country_Code_Master_class(admin.ModelAdmin):
 	list_display = ('id','country_name','dial_code')
 admin.site.register(Country_Code_Master , Country_Code_Master_class)
